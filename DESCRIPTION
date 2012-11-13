@@ -1,0 +1,56 @@
+Package: plspm
+Type: Package
+Title: Tools for Partial Least Squares Path Modeling
+Version: 0.3.1
+Date: 2012-11-12
+Authors@R: c(person("Gaston", "Sanchez", role=c("aut", "cre"),
+    email = "gaston.stat@gmail.com"),
+    person("Laura", "Trinchera", role=c("aut")))
+Author: Gaston Sanchez and Laura Trinchera
+Maintainer: Gaston Sanchez <gaston.stat@gmail.com>
+Description: plspm contains a set of functions for performing Partial Least
+    Squares Path Modeling (PLS-PM) analysis. This is a new version that no
+    longer supports other PLS methods such as nipals, regresison, and canonical
+    analysis. For the later methods use the package plsdepot.
+URL: http://www.gastonsanchez.com/plspm,
+     http://www.plsmodeling.com
+Depends:
+    R (>= 2.15.1),
+    amap,
+    diagram
+Suggests:
+    plsdepot,
+    FactoMineR
+License: GPL-3
+LazyLoad: yes
+Collate:
+    'plspm.R'
+    'plspm.fit.R'
+    'get_boots.R'
+    'get_effects.R'
+    'get_gof.R'
+    'get_loads.R'
+    'get_params.R'
+    'get_path_scheme.R'
+    'get_paths.R'
+    'get_plsr1.R'
+    'get_unidim.R'
+    'get_weights.R'
+    'print.plspm.R'
+    'innerplot.R'
+    'plot.plspm.R'
+    'print.summary.plspm.R'
+    'summary.plspm.R'
+    'plspm.groups.R'
+    'print.plspm.groups.R'
+    'outerplot.R'
+    'get_GQI.R'
+    'get_locals_test.R'
+    'it.reb.R'
+    'local.models.R'
+    'print.local.models.R'
+    'print.rebus.R'
+    'print.rebus.test.R'
+    'rebus.pls.R'
+    'rebus.test.R'
+    'res.clus.R'

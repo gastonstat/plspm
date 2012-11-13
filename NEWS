@@ -1,0 +1,26 @@
+Version 0.3.1 (2012-11-12)
+------------------------------------------------------------
+
+NEW FEATURES AND FUNCTIONS
+
+* PLSTROIKA has started (restructuring my pls packages)
+
+* Revamped version of the renowned plspm package that from now on will only contain functions related to Partial Least Squares Path Modeling. Other methods such as nipasl, pls regression, and canonical analysis, now happily live in the package "plsdepot"
+
+* `plspm` has updated documentation
+
+* New implemented functions `innerplot` and `outerplot` to provide simpler but prettier graphics
+
+* delete split option for plotting loadings and outer weights 
+
+* `plot.plspm.groups` has been deleted
+
+* `resclus.plot` has been deleted
+
+* internal functions are exported for developing reasons. Don't use them unless you're me or a super user or a package developer
+
+* Using 'roxygen2' for documentation and literate programming
+
+BUG FIXES
+
+* Pain-in-the-butt warning message about 'sd() deprecated' has been tackled
