@@ -1,8 +1,8 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling
-Version: 0.3.1
-Date: 2012-11-12
+Version: 0.3.2
+Date: 2012-11-17
 Authors@R: c(person("Gaston", "Sanchez", role=c("aut", "cre"),
     email = "gaston.stat@gmail.com"),
     person("Laura", "Trinchera", role=c("aut")))
@@ -13,7 +13,7 @@ Description: plspm contains a set of functions for performing Partial Least
     longer supports other PLS methods such as nipals, regresison, and canonical
     analysis. For the later methods use the package plsdepot.
 URL: http://www.gastonsanchez.com/plspm,
-     http://www.plsmodeling.com
+    http://www.plsmodeling.com
 Depends:
     R (>= 2.15.1),
     amap,

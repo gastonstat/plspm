@@ -11,8 +11,8 @@
   \tabular{ll}{
   Package: \tab plspm\cr
   Type: \tab Package\cr
-  Version: \tab 0.3.1\cr
-  Date: \tab 2012-10-27\cr
+  Version: \tab 0.3.2\cr
+  Date: \tab 2012-11-17\cr
   Depends: \tab R (>=2.15.1) amap, diagram\cr
   Suggests: \tab FactoMineR\cr
   License: \tab GPL-3\cr
