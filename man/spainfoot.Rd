@@ -34,7 +34,7 @@
   Cero a cero. \url{http://www.ceroacero.es/} \cr
 }
 \references{
-  Applying plspm Beginners Guide. \url{http://www.scribd.com/plspm}
+  Getting started with plspm. \url{http://www.gastonsanchez.com/plspm}
 }
 \examples{
   data(spainfoot)

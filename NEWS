@@ -1,3 +1,14 @@
+Version 0.3.3 (2012-12-07)
+------------------------------------------------------------
+
+* `print.summary.plspm` shows Model Specifications in an aligned (pretty) way
+
+* new data set `offense` for Offense Performance model (NFL teams 2011)
+
+* new data set `college` for GPA model (life sciences undergrad students)
+
+* new data set `cereals` for Cereals Rating model (cereals)
+
 Version 0.3.2 (2012-11-17)
 ------------------------------------------------------------
 

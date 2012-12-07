@@ -5,7 +5,7 @@
 \description{
   Data set from Russett (1964) about agricultural inequality, industrial development and political instability.
 }
-\usage{russett}
+\usage{data(russett)}
 \format{
   A data frame with 47 observations on the following 11 variables. The variables may be used to construct three latent concepts: 1) \code{AGRIN}=Agricultural Inequality, 2) \code{INDEV}=Industrial Development, 3) \code{POLINS}=Political Instability. 
 

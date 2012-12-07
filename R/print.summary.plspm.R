@@ -28,9 +28,9 @@ function(x, ...)
   if (length(x$xxx) > 10)
   {
     boot.sam <- if(is.null(x$xxx$br)) "NULL" else x$xxx$br
-    cat("9   Paths by PLS-R", "\t", x$xxx$plsr, "\n")
-    cat("10  Bootstrapping", "\t", x$xxx$boot.val, "\n")
-    cat("11  Bootstrap samples", "\t", boot.sam, "\n")
+    cat("9   Paths by PLS-R      ", x$xxx$plsr, "\n")
+    cat("10  Bootstrapping       ", x$xxx$boot.val, "\n")
+    cat("11  Bootstrap samples   ", boot.sam, "\n")
   }
   cat("\n")
   cat("----------------------------------------------------------", "\n")    
