@@ -14,12 +14,12 @@
     1   \tab \code{HS_GPA}      \tab High School GPA 			\tab \code{HighSchool} 	\cr
     2   \tab \code{SAT_Verbal} 	\tab Verbal SAT score 	  \tab \code{HighSchool} 	\cr
     3   \tab \code{SAT_Math}    \tab Math SAT score 	    \tab \code{HighSchool} 		\cr
-    4   \tab \code{Biology1}    \tab Ecology Evolution 	  \tab \code{BasicCourses} 		\cr
-    5   \tab \code{Chemistry1} 	\tab General Chemistry    \tab \code{BasicCourses} 		\cr    
-    6   \tab \code{Math1}       \tab Calculus1	          \tab \code{BasicCourses} 		\cr
+    4   \tab \code{Biology1}    \tab Introductory Biology \tab \code{BasicCourses} 		\cr
+    5   \tab \code{Chemistry1} 	\tab Introductoy Chemistry    \tab \code{BasicCourses} 		\cr    
+    6   \tab \code{Math1}       \tab Calculus 1	          \tab \code{BasicCourses} 		\cr
     7   \tab \code{Physics1} 	  \tab Introductory Physics	\tab \code{BasicCourses} 		\cr
-    8   \tab \code{Biology2} 		\tab Cell and molecular biology \tab \code{InterCourses} 		\cr    
-    9   \tab \code{Chemistry2}  \tab Organic Chemistry	  \tab \code{InterCourses} 		\cr
+    8   \tab \code{Biology2} 		\tab Intermediate Biology \tab \code{InterCourses} 		\cr    
+    9   \tab \code{Chemistry2}  \tab Intermediate Chemistry	  \tab \code{InterCourses} 		\cr
     10  \tab \code{Math2}       \tab Calculus 2	          \tab \code{InterCourses} 		\cr
     11  \tab \code{Physics2}    \tab Intermediate Physics	\tab \code{InterCourses} 		\cr
     12  \tab \code{FinalGPA}    \tab Graduation GPA       \tab \code{FinalGPA} 		\cr

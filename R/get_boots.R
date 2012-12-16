@@ -113,36 +113,36 @@ get_boots <-
     WB <- data.frame(Original = wgs.orig, 
                      Mean.Boot = apply(WEIGS, 2, mean), 
                      Std.Error = apply(WEIGS, 2, sd), 
-                     perc.05 = apply(WEIGS, 2, function(x) quantile(x, 0.05)),
-                     perc.95 = apply(WEIGS, 2, function(x) quantile(x, 0.95)))
+                     perc.025 = apply(WEIGS, 2, function(x) quantile(x, 0.025)),
+                     perc.975 = apply(WEIGS, 2, function(x) quantile(x, 0.975)))
     # Loadings
     colnames(LOADS) <- mvs.names
     LB <- data.frame(Original = loads.orig, 
                      Mean.Boot = apply(LOADS, 2, mean),
                      Std.Error = apply(LOADS, 2, sd), 
-                     perc.05 = apply(LOADS, 2, function(x) quantile(x, 0.05)),
-                     perc.95 = apply(LOADS, 2, function(x) quantile(x, 0.95)))
+                     perc.025 = apply(LOADS, 2, function(x) quantile(x, 0.025)),
+                     perc.975 = apply(LOADS, 2, function(x) quantile(x, 0.975)))
     # Path coefficients
     colnames(PATHS) <- path.labs
     PB <- data.frame(Original = path.orig, 
                      Mean.Boot = apply(PATHS, 2, mean),
                      Std.Error = apply(PATHS, 2, sd), 
-                     perc.05 = apply(PATHS, 2, function(x) quantile(x, 0.05)),
-                     perc.95 = apply(PATHS, 2, function(x) quantile(x, 0.95)))
+                     perc.025 = apply(PATHS, 2, function(x) quantile(x, 0.025)),
+                     perc.975 = apply(PATHS, 2, function(x) quantile(x, 0.975)))
     # Total effects
     colnames(TOEFS) <- Path.efs[, 1]
     TE <- data.frame(Original = Path.efs[, 4], 
                      Mean.Boot = apply(TOEFS, 2, mean), 
                      Std.Error = apply(TOEFS, 2, sd),
-                     perc.05 = apply(TOEFS, 2, function(x) quantile(x, 0.05)), 
-                     perc.95 = apply(TOEFS, 2, function(x) quantile(x, 0.95)))
+                     perc.025 = apply(TOEFS, 2, function(x) quantile(x, 0.025)), 
+                     perc.975 = apply(TOEFS, 2, function(x) quantile(x, 0.975)))
     # R-squared
     colnames(RSQRS) <- lvs.names[endo == 1]
     RB <- data.frame(Original = r2.orig, 
                      Mean.Boot = apply(RSQRS, 2, mean),
                      Std.Error = apply(RSQRS, 2, sd), 
-                     perc.05 = apply(RSQRS, 2, function(x) quantile(x, 0.05)),
-                     perc.95 = apply(RSQRS, 2, function(x) quantile(x, 0.95)))
+                     perc.025 = apply(RSQRS, 2, function(x) quantile(x, 0.025)),
+                     perc.975 = apply(RSQRS, 2, function(x) quantile(x, 0.975)))
     # Bootstrap Results
     res.boot <- list(weights = WB, 
                      loadings = LB, 
