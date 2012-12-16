@@ -30,7 +30,7 @@
   Statto. \url{http://www.statto.com} \cr  
 }
 \references{
-  Applying plspm Beginners Guide. \url{http://www.scribd.com/plspm}
+  \url{http://www.gastonsanchez.com/plspm}
 }
 \examples{
   data(futbol)
