@@ -1,7 +1,7 @@
 plspm
 ============================
 
-R package **plspm** exclusively dedicated to Partial Least Squares Path Modeling (PLS-PM) analysis. Versions later than 0.3.0 only contain functions related to Partial Least Squares Path Modeling. Other methods such as nipasl, pls regression, and pls canonical analysis are now in the brother package **plsdepot**.
+R package **plspm** exclusively dedicated to Partial Least Squares Path Modeling (PLS-PM) analysis. Versions later than 0.3.0 only contain functions related to Partial Least Squares Path Modeling. Other methods such as nipals, pls regression, and pls canonical analysis are now in the brother package **plsdepot**.
 
 ## Requirements and Installation
 
@@ -61,7 +61,7 @@ Links
 -----
 [plspm package github](http://github.com/gastonstat/plspm)
 
-[plspm slides](http://www.gastonsanchez.com/plspm)
+[plspm documentation](http://www.gastonsanchez.com/plspm)
 
 [PLS Modeling stuff](http://www.plsmodeling.com)
 
