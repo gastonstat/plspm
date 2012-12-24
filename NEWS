@@ -1,6 +1,8 @@
 Version 0.3.3 (2012-12-15)
 ------------------------------------------------------------
 
+* new function `rescale` to express latent variable scores in scale of indicators
+
 * `print.summary.plspm` shows Model Specifications in an aligned (pretty) way
 
 * new data set `offense` for Offense Performance model (NFL teams 2011)

@@ -69,7 +69,7 @@ innerplot <-
     # checking arguments
     # =======================================================
     if (!inherits(x, "plspm") && !inherits(x, "matrix"))
-      stop(paste("\nSorry, do not how to handle an object of class "), class(x))
+      stop(paste("\nSorry, don't know how to handle an object of class "), class(x))
     # if x is "plspm"
     if (inherits(x, "plspm"))
     {

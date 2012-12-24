@@ -12,7 +12,7 @@
   Package: \tab plspm\cr
   Type: \tab Package\cr
   Version: \tab 0.3.3\cr
-  Date: \tab 2012-12-05\cr
+  Date: \tab 2012-12-24\cr
   Depends: \tab R (>=2.15.1) amap, diagram\cr
   Suggests: \tab FactoMineR\cr
   License: \tab GPL-3\cr

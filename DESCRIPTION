@@ -2,7 +2,7 @@ Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling
 Version: 0.3.3
-Date: 2012-12-15
+Date: 2012-12-24
 Authors@R: c(person("Gaston", "Sanchez", role=c("aut", "cre"),
     email = "gaston.stat@gmail.com"),
     person("Laura", "Trinchera", role=c("aut")))
@@ -54,3 +54,4 @@ Collate:
     'rebus.pls.R'
     'rebus.test.R'
     'res.clus.R'
+    'rescale.R'
