@@ -18,7 +18,7 @@
     5   \tab NGCH: Goals Conceded at Home 	\tab total number (negative) of goals conceded at home	\tab DEFENSE 	\cr
     6   \tab NGCA: Goals Conceded Away		\tab total number (negative) of goals conceded away 	\tab DEFENSE	\cr
     7   \tab CSH: Clean Sheets at Home		\tab percentage of matches with no conceded goals at home 	\tab DEFENSE 	\cr
-    8   \tab CSH: Clean Sheets Away		\tab percentage of matches with no conceded goals away 	\tab DEFENSE 	\cr
+    8   \tab CSA: Clean Sheets Away		\tab percentage of matches with no conceded goals away 	\tab DEFENSE 	\cr
     9   \tab WMH: Won Matches at Home		\tab total number of matches won at home		\tab SUCCESS 	\cr
     10  \tab WMA: Won Matches Away		\tab total number of matches won away			\tab SUCCESS 	\cr
     11  \tab Country: Leangue Country		\tab country of the team's league			\tab none 	\cr
