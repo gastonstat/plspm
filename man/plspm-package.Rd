@@ -11,8 +11,8 @@
   \tabular{ll}{
   Package: \tab plspm\cr
   Type: \tab Package\cr
-  Version: \tab 0.3.4\cr
-  Date: \tab 2012-12-29\cr
+  Version: \tab 0.3.5\cr
+  Date: \tab 2013-01-03\cr
   Depends: \tab R (>=2.15.1) amap, diagram\cr
   Suggests: \tab FactoMineR\cr
   License: \tab GPL-3\cr
@@ -27,7 +27,10 @@
 \references{
   \url{http://www.gastonsanchez.com/plspm}
 
-  Tenenhaus, M. (1998) \emph{La Regression PLS. Theorie et Pratique}. Editions TECHNIP, Paris.
+  Sanchez G (2013) \emph{PLS Path Modeling with R} \cr
+  \url{http://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf}
+
+  Tenenhaus M (1998) \emph{La Regression PLS. Theorie et Pratique}. Editions TECHNIP, Paris.
 
   \emph{Handbook of Partial Least Squares} (2010). Editors: V. Esposito Vinzo, W.W. Chin, J. Henseler, H. Wang. Springer, Paris.
 }

@@ -21,10 +21,10 @@
 #'@param arr.width arrow width.
 #'@param cex.txt Relative size of text on arrows.
 #'@param \dots Further arguments passed on to \code{\link{plotmat}}.
-#'@note \code{plot.plspm} uses the function
+#'@note \code{outerplot} uses the function
 #'\code{\link{plotmat}} of package \code{diagram}. \cr
 #'\url{http://cran.r-project.org/web/packages/diagram/vignettes/diagram.pdf}
-#'@seealso \code{\link{innerplot}}, \code{\link{plspm}},
+#'@seealso \code{\link{innerplot}}, \code{\link{plot.plspm}}, \code{\link{plspm}},
 #'\code{\link{plot.plspm}}
 #'@export 
 #'@examples
