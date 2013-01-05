@@ -55,6 +55,8 @@ plot(satpls, what="loadings")
 plot(satpls, what="weights")
 ```
 
+Check the book [PLS Path Modeling with R](http://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf)
+
 More info at [www.gastonsanchez.com/plspm](http://www.gastonsanchez.com/plspm)
 
 Links
