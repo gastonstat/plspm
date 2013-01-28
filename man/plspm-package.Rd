@@ -11,9 +11,9 @@
   \tabular{ll}{
   Package: \tab plspm\cr
   Type: \tab Package\cr
-  Version: \tab 0.3.5\cr
-  Date: \tab 2013-01-03\cr
-  Depends: \tab R (>=2.15.1) amap, diagram\cr
+  Version: \tab 0.3.6\cr
+  Date: \tab 2013-01-28\cr
+  Depends: \tab R (>=2.14.0) amap, diagram\cr
   Suggests: \tab FactoMineR\cr
   License: \tab GPL-3\cr
   LazyLoad: \tab yes\cr
