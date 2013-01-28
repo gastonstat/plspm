@@ -18,7 +18,7 @@ function(x, ...)
     cat("\n$inner.sum     ", "summary inner model")
     cat("\n$effects       ", "total effects")
     cat("\n$unidim        ", "unidimensionality")
-    cat("\n$gof           ", "goodnes-of-fit")
+    cat("\n$gof           ", "goodness-of-fit")
     cat("\n$boot          ", "bootstrap results")
     cat("\n$data          ", "data matrix")
   }

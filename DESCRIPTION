@@ -1,8 +1,8 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling
-Version: 0.3.5
-Date: 2013-01-03
+Version: 0.3.6
+Date: 2013-01-28
 Authors@R: c(person("Gaston", "Sanchez", role=c("aut", "cre"),
     email = "gaston.stat@gmail.com"),
     person("Laura", "Trinchera", role=c("aut")))
@@ -15,7 +15,7 @@ Description: plspm contains a set of functions for performing Partial Least
 URL: http://www.gastonsanchez.com/plspm,
     http://www.plsmodeling.com
 Depends:
-    R (>= 2.15.1),
+    R (>= 2.14.0),
     amap,
     diagram
 Suggests:

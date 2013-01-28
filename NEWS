@@ -1,3 +1,10 @@
+Version 0.3.6 (2013-01-28)
+------------------------------------------------------------
+
+* fixing a typo in `print.plspm` (thanks to Jeff Daniels)
+
+* Decreasing required R version to 2.14.0 (suggested by Mikko Ronkko)
+
 Version 0.3.5 (2013-01-03)
 ------------------------------------------------------------
 
