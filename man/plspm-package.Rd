@@ -5,13 +5,13 @@
   Tools for Partial Least Squares Path Modeling
 }
 \description{
-  plspm contains a set of functions for performing Partial Least Squares Path Modeling (PLS-PM) analysis, as well as group comparison, and REBUS-PLS. This is a new version that no longer supports other PLS methods such as nipals, regresison, and canonical analysis. For the later methods use the package plsdepot.
+  plspm contains a set of functions for performing Partial Least Squares Path Modeling (PLS-PM) analysis, as well as group comparison, and REBUS-PLS. This is a new version that no longer supports other PLS methods such as nipals, regression, and canonical analysis. For the later methods use the package plsdepot.
 }
 \details{
   \tabular{ll}{
   Package: \tab plspm\cr
   Type: \tab Package\cr
-  Version: \tab 0.3.6\cr
+  Version: \tab 0.3.7\cr
   Date: \tab 2013-01-28\cr
   Depends: \tab R (>=2.14.0) amap, diagram\cr
   Suggests: \tab FactoMineR\cr

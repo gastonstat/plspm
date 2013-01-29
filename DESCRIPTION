@@ -1,7 +1,7 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling
-Version: 0.3.6
+Version: 0.3.7
 Date: 2013-01-28
 Authors@R: c(person("Gaston", "Sanchez", role=c("aut", "cre"),
     email = "gaston.stat@gmail.com"),
@@ -10,7 +10,7 @@ Author: Gaston Sanchez and Laura Trinchera
 Maintainer: Gaston Sanchez <gaston.stat@gmail.com>
 Description: plspm contains a set of functions for performing Partial Least
     Squares Path Modeling (PLS-PM) analysis. This is a new version that no
-    longer supports other PLS methods such as nipals, regresison, and canonical
+    longer supports other PLS methods such as nipals, regression, and canonical
     analysis. For the later methods use the package plsdepot.
 URL: http://www.gastonsanchez.com/plspm,
     http://www.plsmodeling.com
