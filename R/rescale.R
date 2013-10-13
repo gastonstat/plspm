@@ -1,15 +1,16 @@
 #' @title Rescale Latent Variable Scores
 #' 
 #' @description 
-#' Rescale standardized latent variable scores to original scale of manifest variables
+#' Rescale standardized latent variable scores to original scale 
+#' of manifest variables
 #' 
 #' @details
 #' \code{rescale} requires all outer weights to be positive
 #' 
 #' @param pls object of class \code{"plspm"}
-#' @param Y Optional dataset (matrix or data frame) used when argument
+#' @param data Optional dataset (matrix or data frame) used when argument
 #' \code{dataset=NULL} inside \code{pls}.
-#' @return A matrix with the rescaled latent variable scores
+#' @return A data frame with the rescaled latent variable scores
 #' @author Gaston Sanchez
 #' @seealso \code{\link{plspm}}
 #' @export
@@ -28,91 +29,78 @@
 #'  VAL = c(0,1,1,0,0,0)
 #'  SAT = c(1,1,1,1,0,0) 
 #'  LOY = c(1,0,0,0,1,0)
-#'  sat.inner = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
+#'  sat_path = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
 #'  
 #'  # define outer model list
-#'  sat.outer = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+#'  sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
 #'  
 #'  # define vector of reflective modes
-#'  sat.mod = rep("A", 6)
+#'  sat_modes = rep("A", 6)
 #'  
 #'  # apply plspm
-#'  my_pls = plspm(satisfaction, sat.inner, sat.outer, sat.mod, scheme="factor", 
+#'  my_pls = plspm(satisfaction, sat_path, sat_blocks, sat_modes, 
 #'               scaled=FALSE)
 #'               
 #'  # rescaling standardized scores of latent variables
-#'  scores = rescale(my_pls)
+#'  new_scores = rescale(my_pls)
 #'  
 #'  # compare standardized LVs against rescaled LVs
-#'  summary(my_pls$latents)
-#'  summary(scores)
+#'  summary(my_pls$scores)
+#'  summary(new_scores)
 #'  }
 #'
-rescale <-
-function(pls, Y = NULL)
+rescale <- function(pls, data = NULL)
 {
   # =======================================================
   # checking arguments
   # =======================================================
   if (!inherits(pls, "plspm"))
-    stop("\nSorry, an object of class 'plspm' was expected")
-  # if Y available
-  if (!is.null(Y))
-  {
-    if (is.null(pls$data))
-    {
-      if (!is.matrix(Y) && !is.data.frame(Y))
-        stop("\n'Y' must be a numeric matrix or data frame")
-      if (nrow(Y) != nrow(pls$latents))
-        stop("\n'pls' and 'Y' are incompatible. Different number of rows")
-    }
-  } else { 
-    # if no Y
-    if (is.null(pls$data)) 
-      stop("\n'Y' is missing; No dataset available in 'pls'")
-  }
-  # check positive outer weights
-  wgs = pls$out.weights
+    stop("\nSorry, an object of class 'plspm' is expected")
+  # test availibility of dataset (either data or pls$data)
+  test_dataset(data, pls$data, pls$model$gens$obs)
+  # non-metric scaling is allowed
+  metric = get_metric(pls$model$specs$scaling)
+  if (!metric) 
+    stop("\nSorry, 'rescale()' requires 'pls' to have scaling=NULL")
+  # all outer weights must be positive
+  wgs = pls$outer_model$weight
   if (any(wgs < 0))
-    stop("\nSorry, all outer weights must be positive")
+    stop("\nSorry, 'rescale()' requires all outer weights to be positive")
   
   # =======================================================
   # prepare ingredients
   # =======================================================
   IDM = pls$model$IDM
   blocks = pls$model$blocks   
-  modes = pls$model$modes
+  modes = pls$model$specs$modes
   lvs = nrow(IDM)
-  mvs = sum(blocks)
-  LVS = pls$latents
-  outer = pls$model$outer
+  mvs = sum(lengths(blocks))
+  LVS = pls$scores
   
   # create block list
-  blocklist = as.list(1:lvs)
-  for (j in 1:lvs) 
-    blocklist[[j]] = rep(j, blocks[j])
-  blocklist = unlist(blocklist)
-
+  blocklist = indexify(blocks)
+  
   # outer design matrix 'ODM' with normalized weights
   ODM = matrix(0, mvs, lvs)
   for (j in 1:lvs) 
-    ODM[which(blocklist==j),j] = wgs[blocklist == j] / sum(wgs[blocklist == j])
-
+    ODM[blocklist==j,j] = wgs[blocklist == j] / sum(wgs[blocklist == j])
+  
   # calculating rescaled scores
   if (!is.null(pls$data)) 
   {
     # get rescaled scores
+    if (is.data.frame(pls$data)) pls$data = as.matrix(pls$data)
     Scores = pls$data %*% ODM
   } else {         
-    # building data matrix 'DM'
-    DM = matrix(NA, nrow(pls$latents), sum(blocks))
+    # building data matrix 'DM' when dataset=FALSE
+    DM = matrix(NA, nrow(pls$scores), mvs)
     for (k in 1:lvs)
-      DM[,which(blocklist==k)] <- as.matrix(Y[,outer[[k]]])
+      DM[,blocklist==k] <- as.matrix(data[,blocks[[k]]])
     # get rescaled scores
     Scores = DM %*% ODM
   }
-
+  
   # result
-  dimnames(Scores) = list(rownames(pls$latents), rownames(IDM))
-  Scores
+  dimnames(Scores) = list(rownames(pls$scores), rownames(IDM))
+  as.data.frame(Scores)
 }

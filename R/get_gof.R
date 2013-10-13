@@ -1,35 +1,36 @@
 #' @title Goodness-of-fit for \code{plspm}
 #'
-#' @description
+#' @details
 #' Internal function. \code{get_gof} is called by \code{plspm}
 #'
-#' @param comu communalities
-#' @param R2 R-squared coefficient
+#' @param comu list of communalities
+#' @param R2 vector of R-squared coefficients
 #' @param blocks list of variables in each block
-#' @param IDM Inner Design Matrix
+#' @param path_matrix Inner Design Matrix
 #' @keywords internal
-#' @export
-get_gof <-
-function(comu, R2, blocks, IDM)
+#' @template internals
+#' @export get_gof
+get_gof <- function(comu, R2, blocks, path_matrix)
 {
-  lvs = nrow(IDM)
-  blocklist = as.list(1:lvs)
-  for (j in 1:lvs) blocklist[[j]] = rep(j, blocks[j])
-  blocklist = unlist(blocklist)
-  endo = rowSums(IDM)
+  lvs = nrow(path_matrix)
+  blocklist = indexify(blocks)  
+  endo = rowSums(path_matrix)
   endo[endo != 0] = 1  
-  n.end = sum(endo)
+  
   # average of communalities
-  R2.aux <- R2[endo == 1]
-  comu.aux <- n.comu <- 0    
+  R2_aux <- R2[endo == 1]
+  comu_aux <- n_comu <- NULL
   for (j in 1:lvs)
   {
-    if (length(which(blocklist==j)) > 1)
+    # non mono factorial blocks only
+    if (sum(blocklist==j) > 1)
     {
-      comu.aux = comu.aux + sum(comu[which(blocklist==j)])
-      n.comu = n.comu + length(which(blocklist==j))
+      comu_aux = c(comu_aux, mean(comu[blocklist==j]))
+      n_comu = c(n_comu, sum(blocklist==j))
     }
   }
-  gof = sqrt((comu.aux/n.comu) * mean(R2.aux))
-  return(gof)
+  mean_communality = sum(comu_aux * n_comu) / sum(n_comu)
+  gof = sqrt(mean_communality * mean(R2_aux))
+  # output
+  gof
 }

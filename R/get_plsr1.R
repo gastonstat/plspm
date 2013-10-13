@@ -1,7 +1,7 @@
 #' @title PLS regression for \code{plspm}
 #' 
-#' @description
-#' Internal function. \code{get_plsr1} is called by \code{plspm} to do PLS-R1.
+#' @details
+#' Internal function. \code{get_plsr1} performs PLS-R1.
 #' 
 #' @param predictors matrix of predictors
 #' @param response response variable
@@ -9,9 +9,10 @@
 #' @param scaled logical indicating whether to scale the data
 #' @return A list with pls regression results
 #' @keywords internal
+#' @template internals
 #' @export
 get_plsr1 <-
-function(predictors, response, nc=NULL, scaled=TRUE)
+function(predictors, response, nc = NULL, scaled = TRUE)
 {
   # ============ checking arguments ============
   X <- as.matrix(predictors)
@@ -58,6 +59,11 @@ function(predictors, response, nc=NULL, scaled=TRUE)
   names(resid) <- rownames(Y)
   names(y.hat) <- rownames(Y)
   names(R2) <- paste(rep("t",nc),1:nc,sep="")
-  res <- list(coeffs=Br, coef.std=Bs, cte=cte, R2=R2[1:nc], resid=resid, y.pred=y.hat)    
-  return(res)
+  ## output
+  list(coeffs = Br, 
+       coef.std = Bs, 
+       cte = cte, 
+       R2 = R2[1:nc], 
+       resid = resid, 
+       y.pred = y.hat)
 }

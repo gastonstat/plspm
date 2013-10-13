@@ -1,51 +1,50 @@
 #' @title Calculate path coefficients for \code{plspm}
 #' 
-#' @description
+#' @details
 #' Internal function. \code{get_paths} is called by \code{plspm}.
 #' 
-#' @param IDM Inner Design Matrix
-#' @param Y.lvs Matrix of latent variables
-#' @param plsr logical to indicate path coefs by pls regression
-#' @return list with inner mode, path coefs matrix, R2, and residuals
+#' @param path_matrix path matrix
+#' @param Y_lvs Matrix of latent variables
+#' @param full logical to indicate all results from 'summary(lm())'
+#' @return list with inner results, path coefs matrix, R2, and residuals
 #' @keywords internal
+#' @template internals
 #' @export
-get_paths <-
-  function(IDM, Y.lvs, plsr)
+get_paths <-  function(path_matrix, Y_lvs, full=TRUE)
+{
+  lvs_names = colnames(path_matrix)
+  endogenous = as.logical(rowSums(path_matrix))
+  num_endo = sum(endogenous)
+  results = as.list(1:num_endo)
+  Path = path_matrix
+  residuals = as.list(1:num_endo)
+  R2 = rep(0, nrow(path_matrix))
+  
+  for (aux in 1:num_endo) 
   {
-    lvs.names <- colnames(IDM)
-    endo = rowSums(IDM)
-    endo[endo!=0] <- 1  # vector indicating endogenous LVs
-    innmod <- as.list(1:sum(endo))
-    Path <- IDM
-    residuals <- as.list(1:sum(endo))
-    R2 <- rep(0,nrow(IDM))
-    for (aux in 1:sum(endo)) 
-    {
-      k1 <- which(endo==1)[aux]    # index for endo LV
-      k2 <- which(IDM[k1,]==1)     # index for indep LVs
-      if (length(k2)>1 & plsr) {               
-        path.lm <- get_plsr1(Y.lvs[,k2], Y.lvs[,k1], nc=2)
-        Path[k1,k2] <- path.lm$coeffs
-        residuals[[aux]] <- path.lm$resid
-        R2[k1] <- path.lm$R2[1]
-        inn.val <- c(path.lm$R2[1], path.lm$cte, path.lm$coeffs)
-        inn.lab <- c("R2", "Intercept", paste(rep("path_",length(k2)),names(k2),sep=""))
-        names(inn.val) <- NULL
-        innmod[[aux]] <- data.frame(concept=inn.lab, value=round(inn.val,4))
-      }
-      if (length(k2)==1 | !plsr) {
-        path.lm <- summary(lm(Y.lvs[,k1] ~ Y.lvs[,k2]))
-        Path[k1,k2] <- path.lm$coef[-1,1]
-        residuals[[aux]] <- path.lm$residuals  
-        R2[k1] <- path.lm$r.squared
-        inn.val <- c(path.lm$r.squared, path.lm$coef[,1])
-        inn.lab <- c("R2", "Intercept", paste(rep("path_",length(k2)),names(k2),sep=""))
-        names(inn.val) <- NULL
-        innmod[[aux]] <- data.frame(concept=inn.lab, value=round(inn.val,4))
-      }
-    }
-    names(innmod) <- lvs.names[endo!=0]  
-    names(R2) <- lvs.names
-    res.paths <- list(innmod, Path, R2, residuals)
-    return(res.paths)
+    # index for endo LV
+    k1 <- which(endogenous)[aux]
+    # index for indep LVs
+    k2 = which(path_matrix[k1,] == 1)
+    
+    path_lm = summary(lm(Y_lvs[,k1] ~ Y_lvs[,k2]))
+    Path[k1,k2] = path_lm$coef[-1,1]
+    residuals[[aux]] = path_lm$residuals  
+    R2[k1] = path_lm$r.squared
+    inn_val = c(path_lm$r.squared, path_lm$coef[,1])
+    # ----- NEW results
+    inn_labels = c("Intercept", names(k2))
+    rownames(path_lm$coefficients) = inn_labels
+    results[[aux]] <- path_lm$coefficients
+    # ----- OLD results
+    # inn_lab = c("R2", "Intercept", 
+    # paste(rep("path_",length(k2)),names(k2),sep=""))
+    # names(inn_val) = NULL
+    # results[[aux]] <- data.frame(concept=inn_lab, value=round(inn_val, 4))
   }
+  names(results) = lvs_names[endogenous]  
+  names(R2) = lvs_names
+  
+  # output
+  list(results, Path, R2, residuals)
+}

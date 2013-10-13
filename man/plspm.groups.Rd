@@ -30,14 +30,12 @@
   difference of path coeffs between groups, and the test
   results with the p-value.}
 
-  \item{global}{List with results of the inner model for
-  the global model}
+  \item{global}{List with inner model results for the
+  global model}
 
-  \item{group1}{List with results of the inner model for
-  group1}
+  \item{group1}{List with inner model results for group1}
 
-  \item{group2}{List with results of the inner model for
-  group2}
+  \item{group2}{List with inner model results for group2}
 }
 \description{
   Performs a group comparison test for comparing path
@@ -74,22 +72,21 @@
  VAL = c(0,1,1,0,0,0)
  SAT = c(1,1,1,1,0,0)
  LOY = c(1,0,0,0,1,0)
- sat.inner = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
+ sat_path = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
 
  # define outer model list
- sat.outer = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+ sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
 
  # define vector of reflective modes
- sat.mod = rep("A", 6)
+ sat_mod = rep("A", 6)
 
  # apply plspm
- my_pls = plspm(satisfaction, sat.inner, sat.outer, sat.mod, scheme="factor",
-              scaled=FALSE)
+ satpls = plspm(satisfaction, sat_path, sat_blocks, sat_mod, scaled=FALSE)
 
  # permutation test with 100 permutations
- group_comp = plspm.groups(my_pls, satisfaction$gender,
+ group_perm = plspm.groups(satpls, satisfaction$gender,
                            method="permutation", reps=100)
- group_comp
+ group_perm
  }
 }
 \author{

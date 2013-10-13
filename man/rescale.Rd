@@ -2,16 +2,16 @@
 \alias{rescale}
 \title{Rescale Latent Variable Scores}
 \usage{
-  rescale(pls, Y = NULL)
+  rescale(pls, data = NULL)
 }
 \arguments{
   \item{pls}{object of class \code{"plspm"}}
 
-  \item{Y}{Optional dataset (matrix or data frame) used
+  \item{data}{Optional dataset (matrix or data frame) used
   when argument \code{dataset=NULL} inside \code{pls}.}
 }
 \value{
-  A matrix with the rescaled latent variable scores
+  A data frame with the rescaled latent variable scores
 }
 \description{
   Rescale standardized latent variable scores to original
@@ -34,24 +34,24 @@
  VAL = c(0,1,1,0,0,0)
  SAT = c(1,1,1,1,0,0)
  LOY = c(1,0,0,0,1,0)
- sat.inner = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
+ sat_path = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
 
  # define outer model list
- sat.outer = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+ sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
 
  # define vector of reflective modes
- sat.mod = rep("A", 6)
+ sat_modes = rep("A", 6)
 
  # apply plspm
- my_pls = plspm(satisfaction, sat.inner, sat.outer, sat.mod, scheme="factor",
+ my_pls = plspm(satisfaction, sat_path, sat_blocks, sat_modes,
               scaled=FALSE)
 
  # rescaling standardized scores of latent variables
- scores = rescale(my_pls)
+ new_scores = rescale(my_pls)
 
  # compare standardized LVs against rescaled LVs
- summary(my_pls$latents)
- summary(scores)
+ summary(my_pls$scores)
+ summary(new_scores)
  }
 }
 \author{

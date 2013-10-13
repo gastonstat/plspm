@@ -62,34 +62,34 @@
   \code{summary} function.
 }
 \examples{
-\dontrun{
-   ## example of rebus analysis
-   # load data
-   data(sim.data)
+## Example of REBUS PLS with simulated data
 
-   # compute GLOBAL model
-   sim.inner = matrix(c(0,0,0,0,0,0,1,1,0), 3, 3, byrow=TRUE)
-   dimnames(sim.inner) = list(c("Price", "Quality", "Satisfaction"),
-                              c("Price","Quality", "Satisfaction"))
-   sim.outer = list(c(1,2,3,4,5), c(6,7,8,9,10), c(11,12,13))
-   sim.mod = c("A","A","A")  ## reflective indicators
-   sim.global = plspm(sim.data, inner=sim.inner,
-                      outer=sim.outer, modes=sim.mod)
-   sim.global
+# load simdata
+data(simdata, package="plspm2")
 
-   # Then compute cluster on residual from global model
-   sim.res.clus = res.clus(sim.global)
+# Calculate global plspm
+sim_inner = matrix(c(0,0,0,0,0,0,1,1,0), 3, 3, byrow=TRUE)
+dimnames(sim_inner) = list(c("Price", "Quality", "Satisfaction"),
+                           c("Price", "Quality", "Satisfaction"))
+sim_outer = list(c(1,2,3,4,5), c(6,7,8,9,10), c(11,12,13)) 
+sim_mod = c("A", "A", "A")  # reflective indicators
+sim_global = plspm(simdata, sim_inner, 
+                   sim_outer, modes=sim_mod)
+sim_global
 
-   # To conclude run iteration algorithm
-   rebus.sim = it.reb(sim.global, sim.res.clus, nk=2,
-                       stop.crit = 0.005, iter.max = 100 )
+## Then compute cluster analysis on residuals of global model
+sim_clus = res.clus(sim_global)
 
-   # Computation of local models
-   local.rebus = local.models(sim.global, rebus.sim)
+## To complete REBUS, run iterative algorithm
+rebus_sim = it.reb(sim_global, sim_clus, nk=2, 
+                   stop.crit=0.005, iter.max=100)
 
-   # Display plspm summary for first local model
-   summary(local.rebus$loc.model.1)
- }
+## You can also compute complete outputs 
+## for local models by running:
+local_rebus = local.models(sim_global, rebus_sim)
+
+# Display plspm summary for first local model
+summary(local_rebus$loc.model.1)
 }
 \author{
   Laura Trinchera, Gaston Sanchez

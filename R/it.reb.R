@@ -1,165 +1,114 @@
-#'@title Iterative steps of Response-Based Unit Segmentation (REBUS)
-#'
-#'@description
-#'REBUS-PLS is an iterative algorithm for performing response based 
-#'clustering in a PLS-PM framework. \code{it.reb} allows to perform the
-#'iterative steps of the REBUS-PLS Algorithm. 
-#'It provides summarized results for final local models and the final 
-#'partition of the units. Before running this function, it is necessary 
-#'to run the \code{\link{res.clus}} function to choose the number of 
-#'classes to take into account.
-#'
-#'@param pls an object of class \code{"plspm"}
-#'@param hclus.res object of class \code{"res.clus"} returned 
-#'by \code{\link{res.clus}}
-#'@param nk integer larger than 1 indicating the number of classes.
-#'This value should be defined according to the dendrogram obtained
-#'by performing \code{\link{res.clus}}.
-#'@param Y optional data matrix used when \code{pls$data} is \code{NULL}
-#'@param stop.crit Number indicating the stop criterion for the iterative 
-#'algorithm. It is suggested to use the threshold of less than 0.05\% 
-#'of units changing class from one iteration to the other as stopping rule.
-#'@param iter.max integer indicating the maximum number of iterations
-#'@return an object of class \code{"rebus"}
-#'@return \item{loadings}{Matrix of standardized loadings (i.e. correlations 
-#'with LVs.) for each local model.}
-#'@return \item{path.coefs}{Matrix of path coefficients for each local model.}
-#'@return \item{quality}{Matrix containing the average communalities, the
-#'average redundancies, the R2 values, and the GoF index for each local model.}
-#'@return \item{segments}{Vector defining the class membership of each unit.} 
-#'@return \item{origdata.clas}{ The numeric matrix with original data and with 
-#'a new column defining class membership of each unit.}
-#'@author Laura Trinchera, Gaston Sanchez
-#'
-#'@references Esposito Vinzi, V., Trinchera, L., Squillacciotti, S., 
-#'and Tenenhaus, M. (2008) REBUS-PLS: A Response-Based Procedure for detecting 
-#'Unit Segments in PLS Path Modeling. \emph{Applied Stochastic Models in 
-#'Business and Industry (ASMBI)}, \bold{24}, pp. 439-458.
-#'
-#'Trinchera, L. (2007) Unobserved Heterogeneity in Structural Equation Models: 
-#'a new approach to latent class detection in PLS Path Modeling. 
-#'\emph{Ph.D. Thesis}, University of Naples "Federico II", Naples, Italy.
-#'
-#'\url{http://www.fedoa.unina.it/view/people/Trinchera,_Laura.html}
-#'@seealso \code{\link{plspm}}, \code{\link{rebus.pls}}, 
-#'\code{\link{res.clus}}
-#'@export
-#'@examples
-#'
-#'  \dontrun{
-#'  ## example of rebus analysis with simulated data
-#'  # load data
-#'  data(simdata)
-#'  
-#'  # Calculate plspm
-#'  sim_inner = matrix(c(0,0,0,0,0,0,1,1,0), 3, 3, byrow=TRUE)
-#'  dimnames(sim_inner) = list(c("Price", "Quality", "Satisfaction"),
-#'                             c("Price", "Quality", "Satisfaction"))
-#'  sim_outer = list(c(1,2,3,4,5), c(6,7,8,9,10), c(11,12,13)) 
-#'  sim_mod = c("A", "A", "A")  # reflective indicators
-#'  sim_global = plspm(simdata, inner=sim_inner, 
-#'                     outer=sim_outer, modes=sim_mod)
-#'  sim_global
-#'  
-#'  ## Then compute cluster analysis on residuals of global model
-#'  sim_clus = res.clus(sim_global)
-#'  
-#'  ## To conclude run iteration algorithm
-#'  rebus_sim = it.reb(sim_global, sim_clus, nk=2, 
-#'                    stop.crit=0.005, iter.max=100)
-#'  
-#'  ## You can also compute complete outputs 
-#'  ## for local models by running:
-#'  local_rebus = local.models(sim_global, rebus_sim)
-#'  }
-#'
+#' @title Iterative steps of Response-Based Unit Segmentation (REBUS)
+#' 
+#' @description
+#' REBUS-PLS is an iterative algorithm for performing response based 
+#' clustering in a PLS-PM framework. \code{it.reb} allows to perform the
+#' iterative steps of the REBUS-PLS Algorithm. 
+#' It provides summarized results for final local models and the final 
+#' partition of the units. Before running this function, it is necessary 
+#' to run the \code{\link{res.clus}} function to choose the number of 
+#' classes to take into account.
+#' 
+#' @param pls an object of class \code{"plspm"}
+#' @param hclus.res object of class \code{"res.clus"} returned 
+#' by \code{\link{res.clus}}
+#' @param nk integer larger than 1 indicating the number of classes.
+#' This value should be defined according to the dendrogram obtained
+#' by performing \code{\link{res.clus}}.
+#' @param Y optional data matrix used when \code{pls$data} is \code{NULL}
+#' @param stop.crit Number indicating the stop criterion for the iterative 
+#' algorithm. It is suggested to use the threshold of less than 0.05\% 
+#' of units changing class from one iteration to the other as stopping rule.
+#' @param iter.max integer indicating the maximum number of iterations
+#' @return an object of class \code{"rebus"}
+#' @return \item{loadings}{Matrix of standardized loadings (i.e. correlations 
+#' with LVs.) for each local model}
+#' @return \item{path.coefs}{Matrix of path coefficients for each local model}
+#' @return \item{quality}{Matrix containing the average communalities, the
+#' average redundancies, the R2 values, and the GoF index for each local model}
+#' @return \item{segments}{Vector defining the class membership of each unit} 
+#' @return \item{origdata.clas}{ The numeric matrix with original data and with 
+#' a new column defining class membership of each unit}
+#' @author Laura Trinchera, Gaston Sanchez
+#' 
+#' @references Esposito Vinzi, V., Trinchera, L., Squillacciotti, S., 
+#' and Tenenhaus, M. (2008) REBUS-PLS: A Response-Based Procedure for detecting 
+#' Unit Segments in PLS Path Modeling. \emph{Applied Stochastic Models in 
+#' Business and Industry (ASMBI)}, \bold{24}, pp. 439-458.
+#' 
+#' Trinchera, L. (2007) Unobserved Heterogeneity in Structural Equation Models: 
+#' a new approach to latent class detection in PLS Path Modeling. 
+#' \emph{Ph.D. Thesis}, University of Naples "Federico II", Naples, Italy.
+#' 
+#' \url{http://www.fedoa.unina.it/view/people/Trinchera,_Laura.html}
+#' @seealso \code{\link{plspm}}, \code{\link{rebus.pls}}, 
+#' \code{\link{res.clus}}
+#' @example R/sim-rebus-ex.r
+#' @export
 it.reb <- 
 function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
 {
   # =======================================================
   # checking arguments
   # =======================================================
-  if (class(pls)!="plspm") 
-    stop("argument 'pls' must be an object of class 'plspm'")
-  if (any(pls$model$modes!="A"))# checking reflective modes
-    stop("REBUS only works for reflective modes")
-  if (!pls$model$scaled)# checking scaled data
-    stop("REBUS only works with scaled='TRUE'")
+  if (class(pls) != "plspm") 
+    stop("\n'it.reb()' requires an object of class 'plspm'")
+  if (any(pls$model$specs$modes != "A"))
+    stop("\nREBUS only works for reflective modes")
+  if (!pls$model$specs$scaled)
+    stop("\nREBUS only works with scaled='TRUE'")
   if (missing(hclus.res))
-    stop("argument 'hclus.res' is missing")
-  if (class(hclus.res)!="hclust")
-    stop("argument 'hclus.res' must be an object of class 'hclust'")
+    stop("\nargument 'hclus.res' is missing")
+  if (class(hclus.res) != "hclust")
+    stop("\n'it.reb()' requires an object of class 'hclust'")
   if (missing(nk))
-    stop("argument 'nk' (number of classes) is missing")
-  if (mode(nk)!="numeric" || length(nk)!=1 || 
-    nk<=1 || (nk%%1)!=0)
-    stop("Invalid number of classes 'nk'. Must be an integer larger than 1")
-  if (!is.null(Y)) # if Y available
-  {
-    if (is.null(pls$data))
-    {
-      if (!is.matrix(Y) && !is.data.frame(Y))
-        stop("Invalid object 'Y'. Must be a numeric matrix or data frame.")
-      if (nrow(Y)!=nrow(pls$latents))
-        stop("Argument 'pls' and 'Y' are incompatible. Different number of rows.")
-    }
-  } else { # if no Y
-    if (is.null(pls$data)) 
-      stop("Argument 'Y' is missing. No dataset available.")
-  }
-  if (mode(stop.crit)!="numeric" || length(stop.crit)!=1 || 
-    stop.crit<0 || stop.crit>=1)
+    stop("\nargument 'nk' (number of classes) is missing")
+  if (mode(nk) != "numeric" || length(nk) != 1 || 
+        nk <= 1 || (nk%%1) != 0)
+    stop("\nInvalid number of classes 'nk'. Must be an integer larger than 1")
+  # test availibility of dataset (either Y or pls$data)
+  test_dataset(Y, pls$data, pls$model$gens$obs)
+  # stop.crit
+  if (mode(stop.crit) != "numeric" || length(stop.crit) != 1 || 
+        stop.crit < 0 || stop.crit >= 1)
   {
     warning("Invalid stop criterion 'stop.crit'. Deafult value 0.005 is used")
-    stop.crit <- 0.005
+    stop.crit = 0.005
   }
-  if (mode(iter.max)!="numeric" || length(iter.max)!=1 || 
-    iter.max<=1 || (iter.max%%1)!=0)
+  if (mode(iter.max) != "numeric" || length(iter.max) != 1 || 
+        iter.max <= 1 || (iter.max%%1) != 0)
   {
-    warning("Invalid number of maximum iterations 'iter.max'. Deafult value 100 is used")
-    iter.max <- 100
+    warning("Invalid 'iter.max'. Deafult value 100 is used")
+    iter.max = 100
   }
   
   # =======================================================
   # inputs settings
   # =======================================================
-  IDM = pls$model$IDM # Inner Design Matrix
-  blocks = pls$model$blocks # cardinality of blocks
-  scheme = pls$model$scheme # inner weighting scheme
-  modes = pls$model$modes # measurement modes
-  scaled = pls$model$scaled # type of scaling
-  plsr = pls$model$plsr # pls-regression
-  tol = pls$model$tol # tolerance criterion
-  iter = pls$model$iter # max num iterations
-  outer = pls$model$outer
-  if (plsr) 
-    warning("path coefficients will be calculated with OLS regression")
-  plsr = FALSE
-  blocklist = outer
-  for (k in 1:length(blocks))
-    blocklist[[k]] = rep(k, blocks[k])
-  blocklist = unlist(blocklist)
+  IDM = pls$model$IDM
+  blocks = pls$model$blocks
+  specs = pls$model$specs
+  blocklist = indexify(blocks)
   # data matrix DM
   if (!is.null(pls$data)) {
     DM = pls$data
+    if (!is.matrix(DM)) DM = as.matrix(DM)
+    dataset = TRUE
   } else {         
+    dataset = FALSE
     # building data matrix 'DM'
-    DM = matrix(NA, nrow(pls$latents), sum(blocks))
-    for (k in 1:nrow(IDM))
-      DM[,which(blocklist==k)] = as.matrix(Y[,outer[[k]]])
-    dimnames(DM) = list(rownames(pls$latents), names(pls$out.weights))
+    DM = get_manifests(Y, blocks)
   }
-  lvs = nrow(IDM) # number of LVs
-  lvs.names = rownames(IDM) # names of LVs
-  mvs = sum(blocks) # number of MVs
-  mvs.names = colnames(DM)
-  N = nrow(DM) # number of observations
+  lvs = pls$model$gens$lvs
+  lvs.names = pls$model$gens$lvs_names
+  mvs = pls$model$gens$mvs
+  mvs.names = pls$model$gens$mvs_names
+  N = pls$model$gens$obs
   endo = rowSums(IDM)
-  endo[endo != 0] = 1  # indicator of endog LVs
-  n.end = sum(endo) # number of enfod LVs
+  endo[endo != 0] = 1  
+  n.end = sum(endo) 
   # data scaling
-  sd.X = sqrt((N-1)/N) * apply(DM, 2, sd)
-  X = scale(DM, scale=sd.X) 
+  X = get_data_scaled(DM, TRUE)
   # initial partition (cutting dendrogram in 'nk' clusters)
   ini.part = cutree(hclus.res, nk)
   # number of clusters
@@ -199,18 +148,19 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
       # spliting data matrix for each class
       split.X[[k]] = scale(split.DM[[k]], center=mean.k, scale=sd.k)
       # calculating outer weights for each class
-      out.ws = get_weights(split.X[[k]], IDM, blocks, modes, scheme, tol, iter)
-      w.locals[[k]] = out.ws[[2]]
+      out.ws = get_weights(split.X[[k]], IDM, blocks, specs)
+      w.locals[[k]] = out.ws$W
       # calculating LV scores for each class
-      Y.k = split.X[[k]] %*% out.ws[[2]]
+      Y.k = split.X[[k]] %*% out.ws$W
       # calculating path coefficients for each class
-      pathmod = get_paths(IDM, Y.k, plsr)
+      pathmod = get_paths(IDM, Y.k)
       path.locals[[k]] = pathmod[[2]]
       R2.locals[[k]] = pathmod[[3]][endo==1]
       # calculating loadings and communalities for each class
-      loadcomu = get_loads(split.X[[k]], Y.k, blocks)   
-      loads.locals[[k]] = loadcomu[[1]]
-      comu.locals[[k]] = loadcomu[[2]]
+      xloads = cor(split.X[[k]], Y.k)
+      loads.locals[[k]] = rowSums(xloads * out.ws$ODM)
+      comu.locals[[k]] = loads.locals[[k]]^2
+      
       # latent variables for each unit in each local model
       X.k = scale(DM, center=mean.k, scale=sd.k)
       Y.locals[[k]] = X.k %*% w.locals[[k]]
@@ -218,10 +168,9 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
       out.res = DM
       for (j in 1:lvs)
       {
-        q <- which(blocklist==j) 
-        X.hat = Y.locals[[k]][,j] %*% t(loads.locals[[k]][q])
+        X.hat = Y.locals[[k]][,j] %*% t(loads.locals[[k]][blocklist==j])
         # outer residuals
-        out.res[,q] = (X.k[,q] - X.hat)^2
+        out.res[,blocklist==j] = (X.k[,blocklist==j] - X.hat)^2
       }
       outres.locals[[k]] = out.res
       # computation of inner residuals
@@ -245,14 +194,14 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
       new.clas[i] <- which(CM.locals[i,] == min(CM.locals[i,]))[1]
     # checking convergence
     dif.clas = new.clas - old.clas 
-    unit.change = length(which(dif.clas!=0))
+    unit.change = length(which(dif.clas != 0))
     iter.ch = iter.ch + 1
     # rate of unit change
     if (unit.change/N < stop.crit || iter.ch == iter.max)
       break
     old.clas = new.clas
     if (any(table(new.clas) <= 5)) 
-      stop("Too few units: a class with less than 6 units was detected") 
+      stop("\nToo few units: a class with less than 6 units was detected") 
   }
   
   # =======================================================
@@ -283,22 +232,23 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
     # local std.dev
     sd.k = sqrt((nk-1)/nk) * apply(DM.cl.rebus[[k]], 2, sd)
     DM.k = scale(DM.cl.rebus[[k]], center=mean.k, scale=sd.k)        
-    out.ws = get_weights(DM.k, IDM, blocks, modes, scheme, tol, iter)
-    Y.k = DM.k %*% out.ws[[2]]
-    pathmod = get_paths(IDM, Y.k, plsr)
+    out.ws = get_weights(DM.k, IDM, blocks, specs)
+    Y.k = DM.k %*% out.ws$W
+    pathmod = get_paths(IDM, Y.k)
     path.locals[[k]] = pathmod[[2]]
     R2.locals[[k]] = pathmod[[3]][endo==1]
-    loadcomu = get_loads(DM.cl.rebus[[k]], Y.k, blocks)    
-    loads.locals[[k]] = loadcomu[[1]]
-    comu.locals[[k]] = loadcomu[[2]]
+    xloads = cor(DM.cl.rebus[[k]], Y.k)
+    loads.locals[[k]] = rowSums(xloads * out.ws$ODM)
+    comu.locals[[k]] = loads.locals[[k]]^2
     redun = rep(0, mvs)
     aux = 0
-    for (j in 1:lvs)
-      if (endo[j]==1)
-      {
+    for (j in 1:lvs) {
+      if (endo[j] == 1) {
         aux = aux + 1
-        redun[blocklist==j] = comu.locals[[k]][blocklist==j] * R2.locals[[k]][aux]
+        redun_aux = comu.locals[[k]][blocklist==j] * R2.locals[[k]][aux]
+        redun[blocklist==j] = redun_aux
       }
+    }
     redun.locals[[k]] = redun   
     # path coeffs for local models
     path.rebus[,k] = as.vector(path.locals[[k]][IDM==1])
@@ -310,11 +260,11 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
     aux = 0
     for (j in 1:lvs)
     {
-      comu.aveg[j] = mean(comu.locals[[k]][which(blocklist==j)]) 
+      comu.aveg[j] = mean(comu.locals[[k]][blocklist==j]) 
       if (endo[j] == 1) 
       {
         aux = aux + 1      
-        redun.aveg[aux] = mean(redun.locals[[k]][which(blocklist==j)])
+        redun.aveg[aux] = mean(redun.locals[[k]][blocklist==j])
         R2.aux[aux] = R2.locals[[k]][aux]
       }
     }
@@ -331,7 +281,7 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
   v3 = paste(rep("R2", n.end), lvs.names[endo==1], sep=".")
   dimnames(qual.rebus) = list(c(v1,v2,v3,"GoF"), reb.labs)
   qual.rebus = qual.rebus
-  aux = list(lvs,n.end,unit.change/N,stop.crit,iter.max,iter.ch,gqi)
+  aux = list(lvs, n.end, unit.change/N, stop.crit, iter.max, iter.ch, gqi)
   res = list(path.coef = path.rebus, 
              loadings = loads.rebus, 
              quality = qual.rebus,
@@ -341,4 +291,3 @@ function(pls, hclus.res, nk, Y = NULL, stop.crit = 0.005, iter.max = 100)
   class(res) = "rebus"
   return(res)
 }
-

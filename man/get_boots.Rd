@@ -2,34 +2,30 @@
 \alias{get_boots}
 \title{Performs bootstrap validation in \code{plspm}}
 \usage{
-  get_boots(DM, IDM, blocks, modes, scheme, scaled, br,
-    plsr, tol, iter)
+  get_boots(DM, path_matrix, blocks, specs, br)
 }
 \arguments{
   \item{DM}{Data Matrix}
 
-  \item{IDM}{Inner Design Matrix}
+  \item{path_matrix}{Inner Design Matrix}
 
-  \item{blocks}{vector with number of lvs per block}
+  \item{blocks}{list of vectors with column indices}
 
-  \item{modes}{vector of modes}
-
-  \item{scheme}{type of inner path scheme}
-
-  \item{scaled}{logical to scale the data}
+  \item{specs}{list with algorithm specifications}
 
   \item{br}{number of bootstrap resamples}
-
-  \item{plsr}{logical to get path coefficients by pls
-  regression}
-
-  \item{tol}{threshold for convergence}
-
-  \item{iter}{maximum number of iterations}
 }
 \description{
+  Internal function not to be called by the user
+}
+\details{
   Internal function. \code{get_boots} is called by
   \code{plspm}.
+}
+\section{Warning}{
+  Do NOT use this function unless you are ME, a package
+  developer, or a jedi user who really knows what is doing
+  (seriously!)
 }
 \keyword{internal}
 

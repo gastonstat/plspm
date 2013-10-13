@@ -2,26 +2,14 @@
 \alias{get_unidim}
 \title{Unidimensionality of reflective blocks}
 \usage{
-  get_unidim(x = NULL, outer = NULL, modes = NULL,
-    DM = NULL, blocks = NULL, check = TRUE)
+  get_unidim(DM, blocks, modes)
 }
 \arguments{
-  \item{x}{numeric matrix or data frame containing the
-  manifest variables.}
-
-  \item{outer}{list of vectors with column indices from
-  \code{x} indicating the sets of manifest variables
-  asociated to the latent variables}
-
-  \item{modes}{character vector indicating the type of
-  measurement}
-
   \item{DM}{Data Matrix}
 
   \item{blocks}{vector with numbers of variables per block}
 
-  \item{check}{logical to check \code{x}, \code{outer} and
-  \code{modes}.}
+  \item{modes}{vector of modes}
 }
 \value{
   A data frame with the following columns:
@@ -39,8 +27,16 @@
   \item{eig.2nd}{Second eigenvalue}
 }
 \description{
-  Internal this function. \code{get_unidim} is called by
-  \code{plspm}
+  Internal function not to be called by the user
+}
+\details{
+  Internal function. \code{get_unidim} is called by
+  \code{plspm}.
+}
+\section{Warning}{
+  Do NOT use this function unless you are ME, a package
+  developer, or a jedi user who really knows what is doing
+  (seriously!)
 }
 \keyword{internal}
 

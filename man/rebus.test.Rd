@@ -48,13 +48,13 @@
  data(simdata)
 
  # Calculate plspm
- sim_inner = matrix(c(0,0,0,0,0,0,1,1,0), 3, 3, byrow=TRUE)
- dimnames(sim_inner) = list(c("Price", "Quality", "Satisfaction"),
+ sim_path = matrix(c(0,0,0,0,0,0,1,1,0), 3, 3, byrow=TRUE)
+ dimnames(sim_path) = list(c("Price", "Quality", "Satisfaction"),
                             c("Price", "Quality", "Satisfaction"))
- sim_outer = list(c(1,2,3,4,5), c(6,7,8,9,10), c(11,12,13))
+ sim_blocks = list(c(1,2,3,4,5), c(6,7,8,9,10), c(11,12,13))
  sim_mod = c("A", "A", "A")  # reflective indicators
- sim_global = plspm(simdata, inner=sim_inner,
-                    outer=sim_outer, modes=sim_mod)
+ sim_global = plspm(simdata, sim_path,
+                    sim_blocks, modes=sim_mod)
  sim_global
 
  # Cluster analysis on residuals of global model

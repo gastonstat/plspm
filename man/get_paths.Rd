@@ -2,23 +2,31 @@
 \alias{get_paths}
 \title{Calculate path coefficients for \code{plspm}}
 \usage{
-  get_paths(IDM, Y.lvs, plsr)
+  get_paths(path_matrix, Y_lvs, full = TRUE)
 }
 \arguments{
-  \item{IDM}{Inner Design Matrix}
+  \item{path_matrix}{path matrix}
 
-  \item{Y.lvs}{Matrix of latent variables}
+  \item{Y_lvs}{Matrix of latent variables}
 
-  \item{plsr}{logical to indicate path coefs by pls
-  regression}
+  \item{full}{logical to indicate all results from
+  'summary(lm())'}
 }
 \value{
-  list with inner mode, path coefs matrix, R2, and
+  list with inner results, path coefs matrix, R2, and
   residuals
 }
 \description{
+  Internal function not to be called by the user
+}
+\details{
   Internal function. \code{get_paths} is called by
   \code{plspm}.
+}
+\section{Warning}{
+  Do NOT use this function unless you are ME, a package
+  developer, or a jedi user who really knows what is doing
+  (seriously!)
 }
 \keyword{internal}
 

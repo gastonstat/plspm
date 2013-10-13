@@ -50,54 +50,22 @@
 
   \item{cex.txt}{Relative size of text on arrows.}
 
-  \item{show.values}{Logical indicating to show values when
-  \code{x} is a matrix.}
+  \item{show.values}{should values be shown when \code{x}
+  is a matrix.}
 
   \item{\dots}{Further arguments passed on to
   \code{\link{plotmat}}.}
 }
 \description{
   Plot the inner (structural) model for objects of class
-  \code{"plspm"}, as well as inner model matrices
+  \code{"plspm"}, as well as path matrices
 }
 \note{
   \code{innerplot} uses the function \code{\link{plotmat}}
   in package \code{diagram}. \cr
   \url{http://cran.r-project.org/web/packages/diagram/vignettes/diagram.pdf}
 }
-\examples{
-\dontrun{
- ## typical example of PLS-PM in customer satisfaction analysis
- ## model with six LVs and reflective indicators
-
- # load data
- data(satisfaction)
-
- # define inner model matrix
- IMAG = c(0,0,0,0,0,0)
- EXPE = c(1,0,0,0,0,0)
- QUAL = c(0,1,0,0,0,0)
- VAL = c(0,1,1,0,0,0)
- SAT = c(1,1,1,1,0,0)
- LOY = c(1,0,0,0,1,0)
- sat.inner = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
-
- # define outer model list
- sat.outer = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
-
- # vector of reflective modes
- sat.mod = rep("A", 6)
-
- # apply plspm
- satpls = plspm(satisfaction, sat.inner, sat.outer, sat.mod, scheme="centroid",
-               scaled=FALSE)
-
- # plot diagram of the inner model
- innerplot(satpls)
- }
-}
 \seealso{
-  \code{\link{plspm}}, \code{\link{plot.plspm}},
-  \code{\link{outerplot}}
+  \code{\link{plot.plspm}}, \code{\link{outerplot}}
 }
 

@@ -18,8 +18,15 @@
   A list with pls regression results
 }
 \description{
-  Internal function. \code{get_plsr1} is called by
-  \code{plspm} to do PLS-R1.
+  Internal function not to be called by the user
+}
+\details{
+  Internal function. \code{get_plsr1} performs PLS-R1.
+}
+\section{Warning}{
+  Do NOT use this function unless you are ME, a package
+  developer, or a jedi user who really knows what is doing
+  (seriously!)
 }
 \keyword{internal}
 

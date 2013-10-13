@@ -1,3 +1,22 @@
+Version 0.4.0 (2013-01-28)
+------------------------------------------------------------
+
+NEW FEATURES
+
+* Full redesigning of the popular plspm package that now provides
+all the cool features for handling non-metric data. 
+
+* argument `maxiter` replaces `iter`
+
+* new argument `scaling` to handle non-metric variables
+
+* term `path_matrix` replaces `inner_matrix`
+
+* term `blocks` replaces `outer_list`. Moreover, now you can
+specify blocks using character strings
+
+* `inner_model` gives the full set of coefficients results from 'lm'
+
 Version 0.3.6 (2013-01-28)
 ------------------------------------------------------------
 
@@ -8,7 +27,8 @@ Version 0.3.6 (2013-01-28)
 Version 0.3.5 (2013-01-03)
 ------------------------------------------------------------
 
-* `innerplot` allows parameter arr.lwd to be expressed as a matrix; this can be used to plot arrows with different line widths
+* `innerplot` allows parameter arr.lwd to be expressed as a matrix; 
+this can be used to plot arrows with different line widths
 
 * fixing a typo in `innerplot.Rd`
 
@@ -48,7 +68,10 @@ NEW FEATURES AND FUNCTIONS
 
 * PLSTROIKA has started (restructuring my pls packages)
 
-* Revamped version of the renowned plspm package that from now on will only contain functions related to Partial Least Squares Path Modeling. Other methods such as nipasl, pls regression, and canonical analysis, now happily live in the package "plsdepot"
+* Revamped version of the renowned plspm package that from now on will only
+contain functions related to Partial Least Squares Path Modeling. Other methods
+such as nipasl, pls regression, and canonical analysis, now happily live in the
+package "plsdepot"
 
 * `plspm` has updated documentation
 

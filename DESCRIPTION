@@ -1,57 +1,84 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling
-Version: 0.3.7
-Date: 2013-01-28
-Authors@R: c(person("Gaston", "Sanchez", role=c("aut", "cre"),
-    email = "gaston.stat@gmail.com"),
-    person("Laura", "Trinchera", role=c("aut")))
-Author: Gaston Sanchez and Laura Trinchera
-Maintainer: Gaston Sanchez <gaston.stat@gmail.com>
+Version: 0.4.0
+Date: 2013-10-12
+Authors@R: c(
+    person("Gaston", "Sanchez",
+    email = "gaston.stat@gmail.com", role = c("aut", "cre")),
+    person("Laura", "Trinchera", role = "aut"),
+    person("Giorgio", "Russolillo", role = "aut"))
 Description: plspm contains a set of functions for performing Partial Least
-    Squares Path Modeling (PLS-PM) analysis. This is a new version that no
-    longer supports other PLS methods such as nipals, regression, and canonical
-    analysis. For the later methods use the package plsdepot.
-URL: http://www.gastonsanchez.com/plspm,
+    Squares Path Modeling (PLS-PM) analysis for both metric and non-metric
+    data as well as REBUS analysis.
+URL: http://www.gastonsanchez.com
     http://www.plsmodeling.com
 Depends:
-    R (>= 2.14.0),
+    R (>= 3.0.1),
     amap,
-    diagram
+    diagram,
+    tester,
+    turner
 Suggests:
     plsdepot,
-    FactoMineR
+    FactoMineR,
+    testthat
+VignetteBuilder: knitr
 License: GPL-3
 LazyLoad: yes
 Collate:
-    'plspm.R'
-    'plspm.fit.R'
-    'get_boots.R'
-    'get_effects.R'
-    'get_gof.R'
-    'get_loads.R'
-    'get_params.R'
-    'get_path_scheme.R'
-    'get_paths.R'
-    'get_plsr1.R'
-    'get_unidim.R'
-    'get_weights.R'
-    'print.plspm.R'
-    'innerplot.R'
-    'plot.plspm.R'
-    'print.summary.plspm.R'
-    'summary.plspm.R'
+    'plspm.r'
+    'auxiliar.r'
+    'check_arguments.r'
+    'check_specifications.r'
+    'get_alpha.r'
+    'get_ave.r'
+    'get_boots.r'
+    'get_dummies.r'
+    'get_effects.r'
+    'get_generals.r'
+    'get_gof.r'
+    'get_inner_summary.r'
+    'get_manifests.r'
+    'get_metric.r'
+    'get_nom_scale.r'
+    'get_num_scale.r'
+    'get_ord_scale.r'
+    'get_path_scheme.r'
+    'get_paths.r'
+    'get_plsr1.r'
+    'get_PLSRdoubleQ.r'
+    'get_rank.r'
+    'get_rho.r'
+    'get_scores.r'
+    'get_treated_data.r'
+    'get_unidim.r'
+    'get_weights.r'
+    'get_weights_nonmetric.r'
+    'innerplot.r'
+    'outerplot.r'
+    'plot.plspm.r'
+    'rescale.r'
+    'summary_plspm.r'
+    'test_manifest_scaling.r'
+    'test_null_weights.r'
+    'unidimensionality.r'
+    'test_factors.r'
+    'satis-plspm-ex.r'
+    'russett-data.r'
+    'plspm.fit.r'
     'plspm.groups.R'
-    'print.plspm.groups.R'
-    'outerplot.R'
-    'get_GQI.R'
-    'get_locals_test.R'
-    'it.reb.R'
-    'local.models.R'
-    'print.local.models.R'
-    'print.rebus.R'
-    'print.rebus.test.R'
-    'rebus.pls.R'
-    'rebus.test.R'
-    'res.clus.R'
-    'rescale.R'
+    'test_dataset.r'
+    'get_GQI.r'
+    'get_locals_test.r'
+    'get_scaled_data.r'
+    'it.reb.r'
+    'local.models.r'
+    'print.rebus.r'
+    'rebus.pls.r'
+    'rebus.test.r'
+    'res.clus.r'
+    'sim-rebus-ex.r'
+    'get_PLSR.r'
+    'get_PLSR_NA.r'
+    'quantiplot.r'

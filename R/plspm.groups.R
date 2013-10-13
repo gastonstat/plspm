@@ -31,18 +31,19 @@
 #' Includes: path coefficients of the global model, path coeffs of group1, 
 #' path coeffs of group2, (absolute) difference of path coeffs between groups, 
 #' and the test results with the p-value.}
-#' @return \item{global}{List with results of the inner model for the global model}
-#' @return \item{group1}{List with results of the inner model for group1}
-#' @return \item{group2}{List with results of the inner model for group2}
+#' @return \item{global}{List with inner model results for the global model}
+#' @return \item{group1}{List with inner model results for group1}
+#' @return \item{group2}{List with inner model results for group2}
 #' @author Gaston Sanchez
 #' 
-#' @references Chin, W.W. (2003) A permutation procedure for multi-group comparison
-#' of PLS models. In: Vilares M., Tenenhaus M., Coelho P., Esposito Vinzi V., 
-#' Morineau A. (Eds.) \emph{PLS and Related Methods - Proceedings of the International 
-#' Symposium PLS03.} Decisia, pp. 33-43.
+#' @references Chin, W.W. (2003) A permutation procedure for multi-group 
+#' comparison of PLS models. In: Vilares M., Tenenhaus M., Coelho P., 
+#' Esposito Vinzi V., Morineau A. (Eds.) \emph{PLS and Related Methods - 
+#' Proceedings of the International Symposium PLS03.} Decisia, pp. 33-43.
 #' 
-#' Chin, W.W. (2000) Frequently Asked Questions, Partial Least Squares PLS-Graph. 
-#' Available from: \url{http://disc-nt.cba.uh.edu/chin/plsfaq/multigroup.htm}
+#' Chin, W.W. (2000) Frequently Asked Questions, Partial Least Squares 
+#' PLS-Graph. Available from: 
+#' \url{http://disc-nt.cba.uh.edu/chin/plsfaq/multigroup.htm}
 #' @seealso \code{\link{plspm}}
 #' @export
 #' @examples
@@ -61,22 +62,21 @@
 #'  VAL = c(0,1,1,0,0,0)
 #'  SAT = c(1,1,1,1,0,0) 
 #'  LOY = c(1,0,0,0,1,0)
-#'  sat.inner = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
+#'  sat_path = rbind(IMAG, EXPE, QUAL, VAL, SAT, LOY)
 #'  
 #'  # define outer model list
-#'  sat.outer = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
+#'  sat_blocks = list(1:5, 6:10, 11:15, 16:19, 20:23, 24:27)
 #'  
 #'  # define vector of reflective modes
-#'  sat.mod = rep("A", 6)
+#'  sat_mod = rep("A", 6)
 #'  
 #'  # apply plspm
-#'  my_pls = plspm(satisfaction, sat.inner, sat.outer, sat.mod, scheme="factor", 
-#'               scaled=FALSE)
-#'               
+#'  satpls = plspm(satisfaction, sat_path, sat_blocks, sat_mod, scaled=FALSE)
+#'  
 #'  # permutation test with 100 permutations
-#'  group_comp = plspm.groups(my_pls, satisfaction$gender, 
+#'  group_perm = plspm.groups(satpls, satisfaction$gender, 
 #'                            method="permutation", reps=100)
-#'  group_comp
+#'  group_perm
 #'  }
 #'
 plspm.groups <-
@@ -86,24 +86,16 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
   # checking arguments
   # =======================================================
   if (class(pls) != "plspm") 
-    stop("'pls' must be an object of class 'plspm'")
+    stop("\n'pls' must be an object of class 'plspm'")
   g = group
-  if (!is.factor(g)) stop("'group' must be a factor")
+  if (!is.factor(g)) 
+    stop("\n'group' must be a factor")
   ng = nlevels(g)
-  if (ng > 2) stop("'group' must contain only 2 levels") 
-  if (!is.null(Y)) # if Y available
-  {
-    if (is.null(pls$data))
-    {
-      if (!is.matrix(Y) && !is.data.frame(Y))
-        stop("Invalid object 'Y'. Must be a numeric matrix or data frame.")
-      if (nrow(Y)!=nrow(pls$latents))
-        stop("Argument 'pls' and 'Y' are incompatible. Different number of rows.")
-    }
-  } else { # if no Y
-    if (is.null(pls$data)) 
-      stop("Argument 'Y' is missing. No dataset available.")
-  }
+  if (ng > 2) 
+    stop("\n'group' must contain only 2 levels") 
+  # test availibility of dataset (either Y or pls$data)
+  test_dataset(Y, pls$data, pls$model$gens$obs)
+  # check method
   if (!is.na(pmatch(method, "bootstrap"))) 
     method <- "bootstrap"
   METHODS <- c("bootstrap", "permutation")
@@ -112,78 +104,57 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
     warning("Invalid argument 'method'. Default 'method=bootstrap' is used.")   
     method <- "bootstrap"
   }
-  if (is.null(reps) | length(reps)>1) reps<-100
-  if (!is.numeric(reps) | floor(reps)<=0) reps<-100
-
+  # check number of replicates
+  if (is.null(reps) | length(reps) > 1) reps = 100
+  if (!is.numeric(reps) | floor(reps) <= 0) reps = 100
+  
   # =======================================================
   # inputs setting
   # =======================================================  
-  IDM <- pls$model$IDM# Inner Design Matrix
-  blocks <- pls$model$blocks# cardinality of blocks
-  scheme <- pls$model$scheme# inner weighting scheme
-  modes <- pls$model$modes# measurement modes
-  scaled <- pls$model$scaled# type of scaling
-  plsr <- pls$model$plsr# pls-regression
-  tol <- pls$model$tol# tolerance criterion
-  iter <- pls$model$tol# max num iterations
-  outer <- pls$model$outer
-  blocklist <- outer
-  for (k in 1:length(blocks))
-    blocklist[[k]] <- rep(k,blocks[k])
-  blocklist <- unlist(blocklist)
+  IDM = pls$model$IDM
+  blocks = pls$model$blocks
+  scaled = pls$model$specs$scaled
+  blocklist  = indexify(blocks)
+  
+  # specifications
+  specs = pls$model$specs
+  
   # data matrix DM
   if (!is.null(pls$data)) {
-    DM <- pls$data
-    dataset <- TRUE
+    DM = pls$data
+    dataset = TRUE
   } else {         
-    dataset <- FALSE
+    dataset = FALSE
     # building data matrix 'DM'
-    DM <- matrix(NA, nrow(pls$latents), sum(blocks))
-    for (k in 1:nrow(IDM))
-      DM[,which(blocklist==k)] <- as.matrix(Y[,outer[[k]]])
-    dimnames(DM) <- list(rownames(pls$latents), names(pls$out.weights))
+    DM = get_manifests(Y, blocks)
   }
-  lvs <- nrow(IDM)
-  lvs.names <- rownames(IDM)
-  mvs <- sum(blocks)
-  blocklist <- as.list(1:lvs)
-  for (j in 1:lvs)
-    blocklist[[j]] <- rep(j,blocks[j])
-  blocklist <- unlist(blocklist)
+  lvs = nrow(IDM)
+  lvs.names = rownames(IDM)
+  mvs = pls$model$gen$mvs
   # apply the selected scaling
-  if (scaled) {
-    sd.X <- sqrt((nrow(DM)-1)/nrow(DM)) * apply(DM, 2, sd)
-    X <- scale(DM, scale=sd.X)
-  } else {
-    X <- scale(DM, scale=FALSE)
-  }
-
+  X = get_data_scaled(DM, scaled)
+  
   # =======================================================
   # Global model estimation
   # =======================================================  
-  out.ws <- get_weights(X, IDM, blocks, modes, scheme, tol, iter)
-  if (is.null(out.ws)) stop("The pls algorithm is non convergent") 
-  cor.XY <- cor(X, X%*%out.ws[[2]])
-  w.sig <- rep(NA, lvs)
-  for (k in 1:lvs) 
-    w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-  if (scaled) {
-    Y.lvs <- X %*% out.ws[[2]] %*% diag(w.sig, lvs, lvs)
-  } else   
-    Y.lvs <- DM %*% out.ws[[2]] %*% diag(w.sig, lvs, lvs)
-  dimnames(Y.lvs) = list(rownames(X), lvs.names)
-  # Path coefficients
-  pathmod <- get_paths(IDM, Y.lvs, plsr)
-  innmod <- pathmod[[1]]
-  Path.global <- pathmod[[2]]
-  R2.global <- pathmod[[3]]
+  # object 'weights' contains outer w's, W, ODM, iter
+  weights = get_weights(X, IDM, blocks, specs)
+  ok_weights = test_null_weights(weights, specs)
+  outer_weights = weights$w
+  Y.lvs = get_scores(X, weights$W)
+  
+  # Path coefficients and total effects
+  inner_results = get_paths(IDM, Y.lvs)
+  innmod = inner_results[[1]]
+  Path.global = inner_results[[2]]
+  R2.global = inner_results[[3]]
   endo = rowSums(IDM)
   endo[endo != 0] = 1  # vector indicating endogenous LVs
   path.labs = NULL
   efs.labs = NULL
   for (j in 1:lvs)
     for (i in j:lvs)
-      if (IDM[i,j]==1) 
+      if (IDM[i,j] == 1) 
         path.labs <- c(path.labs, paste(lvs.names[j],"->",lvs.names[i],sep=""))
   path.global <- as.vector(Path.global[which(IDM==1)])
   names(path.global) <- path.labs
@@ -195,25 +166,12 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
   group1 <- which(g==levels(g)[1])
   ng1 <- length(group1)
   # apply the selected scaling
-  if (scaled) {
-    sd.Xg1 <- sqrt((ng1-1)/ng1) * apply(DM[group1,], 2, sd)
-    X.g1 <- scale(DM[group1,], scale=sd.Xg1)
-  } else {
-    X.g1 <- scale(DM[group1,], scale=FALSE)
-  }
-  wgs.g1 <- get_weights(X.g1, IDM, blocks, modes, scheme, tol, iter)
-  if (is.null(wgs.g1)) stop("The algorithm is non convergent") 
-  cor.XY <- cor(X.g1, X.g1%*%wgs.g1[[2]])
-  w.sig <- rep(NA, lvs)
-  for (k in 1:lvs) 
-    w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-  if (scaled) {
-    Y1.lvs <- X.g1 %*% wgs.g1[[2]] %*% diag(w.sig, lvs, lvs)
-  } else   
-    Y1.lvs <- DM[group1,] %*% wgs.g1[[2]] %*% diag(w.sig, lvs, lvs)
-  dimnames(Y1.lvs) <- list(rownames(X.g1), lvs.names)
+  X.g1 = get_data_scaled(DM[group1,], scaled)
+  wgs.g1 = get_weights(X.g1, IDM, blocks, specs)
+  ok_weights = test_null_weights(wgs.g1, specs)  
+  Y1.lvs = get_scores(X.g1, wgs.g1$W)
   # Path coefficients 
-  pathmod.g1 <- get_paths(IDM, Y1.lvs, plsr)
+  pathmod.g1 <- get_paths(IDM, Y1.lvs)
   innmod.g1 <- pathmod.g1[[1]]
   Path.g1 <- pathmod.g1[[2]]
   R2.g1 <- pathmod.g1[[3]]    
@@ -227,25 +185,12 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
   group2 <- which(g==levels(g)[2])
   ng2 <- length(group2)
   # apply the selected scaling
-  if (scaled) {
-    sd.Xg2 <- sqrt((ng2-1)/ng2) * apply(DM[group2,], 2, sd)
-    X.g2 <- scale(DM[group2,], scale=sd.Xg2)
-  } else {
-    X.g2 <- scale(DM[group2,], scale=FALSE)
-  }
-  wgs.g2 <- get_weights(X.g2, IDM, blocks, modes, scheme, tol, iter)
-  if (is.null(wgs.g2)) stop("The algorithm is non convergent") 
-  cor.XY <- cor(X[group2,], X.g2%*%wgs.g2[[2]])
-  w.sig <- rep(NA,lvs)
-  for (k in 1:lvs) 
-    w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-  if (scaled) {
-    Y2.lvs <- X.g2 %*% wgs.g2[[2]] %*% diag(w.sig, lvs, lvs)
-  } else   
-    Y2.lvs <- DM[group2,] %*% wgs.g2[[2]] %*% diag(w.sig, lvs, lvs)
-  dimnames(Y2.lvs) <- list(rownames(X.g2), lvs.names)
+  X.g2 = get_data_scaled(DM[group2,], scaled)
+  wgs.g2 = get_weights(X.g2, IDM, blocks, specs)
+  ok_weights = test_null_weights(wgs.g2, specs)  
+  Y2.lvs = get_scores(X.g2, wgs.g2$W)
   # Path coefficients 
-  pathmod.g2 <- get_paths(IDM, Y2.lvs, plsr)
+  pathmod.g2 <- get_paths(IDM, Y2.lvs)
   innmod.g2 <- pathmod.g2[[1]]
   Path.g2 <- pathmod.g2[[2]]
   R2.g2 <- pathmod.g2[[3]]    
@@ -267,41 +212,23 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
       samg1 <- sample(group1, ng1, replace=TRUE) 
       samg2 <- sample(group2, ng2, replace=TRUE)
       # apply the selected scaling
-      if (scaled) {
-        sd.Xg1 <- sqrt((ng1-1)/ng1) * apply(DM[samg1,], 2, sd)
-        sd.Xg2 <- sqrt((ng2-1)/ng2) * apply(DM[samg2,], 2, sd)
-        X.g1 <- scale(DM[samg1,], scale=sd.Xg1)
-        X.g2 <- scale(DM[samg2,], scale=sd.Xg2)
-      } else {
-        X.g1 <- scale(DM[samg1,], scale=FALSE)
-        X.g2 <- scale(DM[samg2,], scale=FALSE)
-      }
-      wgs.g1 <- get_weights(X.g1, IDM, blocks, modes, scheme, tol, iter)
-      wgs.g2 <- get_weights(X.g2, IDM, blocks, modes, scheme, tol, iter)
+      X.g1 = get_data_scaled(DM[samg1,], scaled)
+      X.g2 = get_data_scaled(DM[samg2,], scaled)
+      # outer weights
+      wgs.g1 = get_weights(X.g1, IDM, blocks, specs)
+      wgs.g2 = get_weights(X.g2, IDM, blocks, specs)
       if (is.null(wgs.g1)) stop("Non convergence in bootstrap samples") 
-      if (is.null(wgs.g2)) stop("Non convergence in bootstrap samples") 
-      cor.XY <- cor(X.g1, X.g1%*%wgs.g1[[2]])
-      w.sig <- rep(NA,lvs)
-      for (k in 1:lvs) 
-        w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-      if (scaled) {
-        Y1.lvs <- X.g1 %*% wgs.g1[[2]] %*% diag(w.sig,lvs,lvs)
-      } else   
-        Y1.lvs <- DM[samg1,] %*% wgs.g1[[2]] %*% diag(w.sig, lvs, lvs)
-      cor.XY <- cor(X.g2, X.g2 %*% wgs.g2[[2]])
-      w.sig <- rep(NA, lvs)
-      for (k in 1:lvs) 
-        w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-      if (scaled) { 
-        Y2.lvs <- X.g2 %*% wgs.g2[[2]] %*% diag(w.sig, lvs, lvs)
-      } else   
-        Y2.lvs <- DM[samg2,] %*% wgs.g2[[2]] %*% diag(w.sig, lvs, lvs)
-      pathmod.g1 <- get_paths(IDM, Y1.lvs, plsr)
-      paths.g1 <- pathmod.g1[[2]]    
-      pathmod.g2 <- get_paths(IDM, Y2.lvs, plsr)
-      paths.g2 <- pathmod.g2[[2]]
-      BG1[i,] <- as.vector(paths.g1[which(IDM==1)])
-      BG2[i,] <- as.vector(paths.g2[which(IDM==1)])
+      if (is.null(wgs.g2)) stop("Non convergence in bootstrap samples")
+      # LVs scores
+      Y1.lvs = get_scores(X.g1, wgs.g1$W)
+      Y2.lvs = get_scores(X.g2, wgs.g2$W)
+      # path coefficients
+      pathmod.g1 = get_paths(IDM, Y1.lvs)
+      paths.g1 = pathmod.g1[[2]]    
+      pathmod.g2 = get_paths(IDM, Y2.lvs)
+      paths.g2 = pathmod.g2[[2]]
+      BG1[i,] = as.vector(paths.g1[which(IDM==1)])
+      BG2[i,] = as.vector(paths.g2[which(IDM==1)])
     }    
     path.difs <- abs(apply(BG1,2,mean) - apply(BG2,2,mean))
     SE1 <- apply(BG1, 2, var)
@@ -330,60 +257,41 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
       samg1 <- permu[1:ng1]
       samg2 <- permu[(ng1+1):(ng1+ng2)]
       # apply the selected scaling
-      if (scaled) {
-        sd.Xg1 <- sqrt((ng1-1)/ng1) * apply(DM[samg1,], 2, sd)
-        sd.Xg2 <- sqrt((ng2-1)/ng2) * apply(DM[samg2,], 2, sd)
-        X.g1 <- scale(DM[samg1,], scale=sd.Xg1)
-        X.g2 <- scale(DM[samg2,], scale=sd.Xg2)
-      } else {
-        X.g1 <- scale(DM[samg1,], scale=FALSE)
-        X.g2 <- scale(DM[samg2,], scale=FALSE)
-      }
-      wgs.g1 <- get_weights(X.g1, IDM, blocks, modes, scheme, tol, iter)
-      wgs.g2 <- get_weights(X.g2, IDM, blocks, modes, scheme, tol, iter)
+      X.g1 = get_data_scaled(DM[samg1,], scaled)
+      X.g2 = get_data_scaled(DM[samg2,], scaled)
+      wgs.g1 <- get_weights(X.g1, IDM, blocks, specs)
+      wgs.g2 <- get_weights(X.g2, IDM, blocks, specs)
       if (is.null(wgs.g1)) stop("Non convergence in bootstrap samples") 
       if (is.null(wgs.g2)) stop("Non convergence in bootstrap samples") 
-      cor.XY <- cor(X.g1, X.g1%*%wgs.g1[[2]])
-      w.sig <- rep(NA, lvs)
-      for (k in 1:lvs) 
-        w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-      if (scaled) {
-        Y1.lvs <- X.g1 %*% wgs.g1[[2]] %*% diag(w.sig,lvs,lvs)
-      } else   
-        Y1.lvs <- DM[samg1,] %*% wgs.g1[[2]] %*% diag(w.sig,lvs,lvs)
-      cor.XY <- cor(X.g2, X.g2%*%wgs.g2[[2]])
-      w.sig <- rep(NA,lvs)
-      for (k in 1:lvs) 
-        w.sig[k] <- ifelse(sum(sign(cor.XY[which(blocklist==k),k]))<=0,-1,1)
-      if (scaled) {
-        Y2.lvs <- X.g2 %*% wgs.g2[[2]] %*% diag(w.sig,lvs,lvs)
-      } else   
-        Y2.lvs <- DM[samg2,] %*% wgs.g2[[2]] %*% diag(w.sig,lvs,lvs)
-      pathmod.g1 <- get_paths(IDM, Y1.lvs, plsr)
-      paths.g1 <- pathmod.g1[[2]]    
-      pathmod.g2 <- get_paths(IDM, Y2.lvs, plsr)
-      paths.g2 <- pathmod.g2[[2]]
-      pp1 <- as.vector(paths.g1[which(IDM==1)])
-      pp2 <- as.vector(paths.g2[which(IDM==1)])
-      dif.perm[i,] <- abs(pp1 - pp2)
+      # LVs scores
+      Y1.lvs = get_scores(X.g1, wgs.g1$W)
+      Y2.lvs = get_scores(X.g2, wgs.g2$W)
+      # path coefficients
+      pathmod.g1 = get_paths(IDM, Y1.lvs)
+      paths.g1 = pathmod.g1[[2]]    
+      pathmod.g2 = get_paths(IDM, Y2.lvs)
+      paths.g2 = pathmod.g2[[2]]
+      pp1 = as.vector(paths.g1[which(IDM==1)])
+      pp2 = as.vector(paths.g2[which(IDM==1)])
+      dif.perm[i,] = abs(pp1 - pp2)
     }   
     s.perm <- dif.orig 
     for (i in 1:sum(IDM))         
-      s.perm[i] <- length(which(dif.orig[i]<dif.perm[,i])) + 1
-    p.val <- (1/(nb+1))*s.perm 
-    signi.path <- rep("no",length(p.val))
-    signi.path[p.val<0.05] <- "yes"
-    res.path <- round(cbind(path.global, path.g1, path.g2, dif.orig, p.val), 4)
+      s.perm[i] <- length(which(dif.orig[i] < dif.perm[,i])) + 1
+    p.val <- (1/(nb+1)) * s.perm 
+    signi.path = rep("no", length(p.val))
+    signi.path[p.val < 0.05] = "yes"
+    res.path = round(cbind(path.global, path.g1, path.g2, dif.orig, p.val), 4)
     res <- data.frame(res.path, signi.path)
-    colnames(res) <- c("global", paste(rep("group",2),levels(g),sep="."), 
-                       "diff.abs", "p.value", "sig.05") 
+    colnames(res) = c("global", paste(rep("group",2), levels(g), sep="."), 
+                      "diff.abs", "p.value", "sig.05") 
   }
-
+  
   # =======================================================
   # Results
   # =======================================================  
   met <- switch(method, "1"="bootstrap", "2"="permutation")
-  settings <- c(scaled=scaled, scheme=scheme, method=met)
+  settings <- c(scaled=scaled, scheme=pls$model$specs$scheme, method=met)
   res = list(test = res, 
              global = innmod, 
              group1 = innmod.g1, 
@@ -394,3 +302,20 @@ function(pls, group, Y = NULL, method = "bootstrap", reps = NULL)
   return(res)
 }
 
+
+#' @S3method print plspm.groups
+print.plspm.groups <- function(x,...)
+{
+  cat("GROUP COMPARISON IN PLS-PM FOR PATH COEFFICIENTS", "\n\n")
+  cat("Scale of Data:      ", x$settings[[1]], "\n")
+  cat("Weighting Scheme:   ", x$settings[[2]], "\n")
+  cat("Selected method:    ", x$settings[[3]], "\n")
+  cat("Num of replicates:  ", x$reps, "\n\n")
+  cat("$test", "\n")
+  print(x$test, print.gap=2)
+  cat("\n")
+  cat("Inner models in the following objects:", "\n")
+  cat("$global ", "\n")
+  cat("$group1 ", "\n")
+  cat("$group2 ", "\n")
+}
