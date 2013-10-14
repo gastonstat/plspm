@@ -115,7 +115,8 @@
 }
 \description{
   Estimate path models with latent variables by partial
-  least squares approach
+  least squares approach (for both metric and non-metric
+  data)
 }
 \details{
   The function \code{plspm} estimates a path model by
@@ -133,7 +134,7 @@
 ## model with six LVs and reflective indicators
 
 # load dataset satisfaction
-data(satisfaction, package="plspm2")
+data(satisfaction, package="plspm")
 
 # path matrix
 IMAG = c(0,0,0,0,0,0)
@@ -187,8 +188,13 @@ outerplot(satpls, what="weights")
   \emph{Systems under indirect observations: Causality,
   structure, prediction}, Part 2, pp. 1-54. Amsterdam:
   Holland.
+
+  Russolillo, G. (2012) Non-Metric Partial Least Squares.
+  \emph{Electronic Journal of Statistics}, \bold{6}, pp.
+  1641-1669.
+  \url{http://projecteuclid.org/euclid.ejs/1348665231}
 }
 \seealso{
-  \code{\link{innerplot}}, \code{\link{plot.plspm}},
+  \code{\link{innerplot}}, \code{\link{outerplot}},
 }
 

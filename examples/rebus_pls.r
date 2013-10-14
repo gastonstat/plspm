@@ -1,5 +1,5 @@
 ## Example of REBUS PLS with simulated data
-library(plspm2)
+library(plspm)
 
 # load simdata
 data(simdata)

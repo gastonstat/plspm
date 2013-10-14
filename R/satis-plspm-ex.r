@@ -2,7 +2,7 @@
 ## model with six LVs and reflective indicators
 
 # load dataset satisfaction
-data(satisfaction, package="plspm2")
+data(satisfaction, package="plspm")
 
 # path matrix
 IMAG = c(0,0,0,0,0,0)

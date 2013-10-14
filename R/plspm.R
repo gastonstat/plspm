@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Estimate path models with latent variables by partial least squares approach
+#' (for both metric and non-metric data)
 #'
 #' @details
 #' The function \code{plspm} estimates a path model by partial least squares
@@ -87,7 +88,11 @@
 #' Wold H. (1982) Soft modeling: the basic design and some extensions. In: K.G.
 #' Joreskog & H. Wold (Eds.), \emph{Systems under indirect observations:
 #' Causality, structure, prediction}, Part 2, pp. 1-54. Amsterdam: Holland.
-#' @seealso \code{\link{innerplot}}, \code{\link{plot.plspm}}, 
+#' 
+#' Russolillo, G. (2012) Non-Metric Partial Least Squares. \emph{Electronic 
+#' Journal of Statistics}, \bold{6}, pp. 1641-1669.
+#' \url{http://projecteuclid.org/euclid.ejs/1348665231}
+#' @seealso \code{\link{innerplot}}, \code{\link{outerplot}}, 
 #' @example R/satis-plspm-ex.r
 #' @export
 plspm <-

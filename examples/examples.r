@@ -2,10 +2,10 @@
 ## example with customer satisfaction analysis
 ## group comparison based on the segmentation variable "gender"
 
-library(plspm2)
+library(plspm)
 
 # load dataset satisfaction
-data(satisfaction, package="plspm2")
+data(satisfaction)
 
 # path matrix
 IMAG = c(0,0,0,0,0,0)
@@ -28,7 +28,7 @@ sat_mod = rep("A", 6)
 
 # apply plspm
 satpls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_mod, 
-               scaled = FALSE)
+                scaled = FALSE)
 
 # plot diagram of the inner model
 innerplot(satpls)

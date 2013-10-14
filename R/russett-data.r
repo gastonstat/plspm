@@ -1,6 +1,6 @@
 #' Russett A
 #' 
-#' Russett dataset with \code{demo} as numeric variable
+#' Russett dataset with variable \code{demo} as numeric variable
 #' 
 #' @docType data
 #' @name russa
@@ -12,7 +12,7 @@ NULL
 
 #' Russett B
 #' 
-#' Russett dataset with \code{demo} as factor
+#' Russett dataset with variable \code{demo} as factor
 #' 
 #' @docType data
 #' @name russb
