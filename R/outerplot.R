@@ -28,7 +28,7 @@
 #' \code{\link{plspm}}
 #' @export 
 outerplot <-
-function(x, what="loadings", colpos = "#6890c4BB", colneg = "#f9675dBB",
+function(x, what = "loadings", colpos = "#6890c4BB", colneg = "#f9675dBB",
          box.prop = 0.55, box.size = 0.08, box.cex = 1, box.col = "gray95", 
          lcol = "gray95", box.lwd = 2, txt.col = "gray40", shadow.size = 0,
          curve = 0, lwd = 2, arr.pos = 0.5, arr.width = 0.15, cex.txt = 0.9,
@@ -49,7 +49,7 @@ function(x, what="loadings", colpos = "#6890c4BB", colneg = "#f9675dBB",
   loadings = x$outer_model$loading
   out.weights = x$outer_model$weight
   lvs = nrow(IDM)
-  mvs_names = rownames(x$outer_model)
+  mvs_names = as.character(x$outer_model$name)
   # rows and columns
   rs = c(1,1,1,2,2,2,2,2,3,2,3,3)
   cs = c(1,2,3,2,3,3,4,4,3,5,4,4)
