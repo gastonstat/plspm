@@ -179,18 +179,21 @@ function(Data, path_matrix, blocks, scaling = NULL, modes = NULL,
   R2_aux = rowSums(weights$ODM %*% diag(R2, gens$lvs, gens$lvs))
   redundancy = communality * R2_aux
   crossloadings = data.frame(xloads, row.names=1:gens$mvs)
-  crossloadings$name = gens$mvs_names  
-  crossloadings$block = rep(gens$lvs_names, block_sizes)
+  crossloadings$name = factor(gens$mvs_names, levels = unique(gens$mvs_names))
+  crossloadings$block = factor(rep(gens$lvs_names, block_sizes),
+                               levels = gens$lvs_names)
   crossloadings = crossloadings[,c('name','block',colnames(xloads))]
   
   # outer model data frame
-  outer_model = data.frame(name = gens$mvs_names,
-                           block = rep(gens$lvs_names, block_sizes),
-                           weight = outer_weights, 
-                           loading = loadings, 
-                           communality = communality,
-                           redundancy = redundancy,
-                           row.names = 1:gens$mvs)
+  outer_model = data.frame(
+    name = factor(gens$mvs_names, levels = unique(gens$mvs_names)),
+    block = factor(rep(gens$lvs_names, block_sizes),
+                   levels = gens$lvs_names),
+    weight = outer_weights, 
+    loading = loadings, 
+    communality = communality,
+    redundancy = redundancy,
+    row.names = 1:gens$mvs)
   
   # Unidimensionality
   unidim = get_unidim(DM = MV, blocks = blocks, modes = specs$modes)

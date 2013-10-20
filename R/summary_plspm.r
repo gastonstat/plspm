@@ -68,7 +68,7 @@ print.summary.plspm <- function(x, ...)
   if (x$model$specs$scaled) Scale="Standardized Data" else Scale="Raw Data"
   
   cat("PARTIAL LEAST SQUARES PATH MODELING (PLS-PM)", "\n\n")
-  cat("----------------------------------------------------------", "\n")    
+  cat("----------------------------------------------------------", "\n")   
   cat("MODEL SPECIFICATION", "\n")
   cat("1   Number of Cases     ", x$model$gens$obs, "\n")
   cat("2   Latent Variables    ", nrow(x$model$IDM), "\n")
@@ -104,7 +104,7 @@ print.summary.plspm <- function(x, ...)
   tmp = indexify(x$model$blocks)
   for (i in 1:length(x$model$blocks)) {
     out_mod_mat = rbind(out_mod_mat, rep(NA, 4), 
-                        as.matrix(x$outer_model[tmp==i,2:5]))
+                        as.matrix(x$outer_model[tmp==i,3:6]))
     out_mod_labs = c(out_mod_labs, x$model$gens$lvs_names[i],
           paste(" ", i, x$model$gens$mvs_names[tmp==i]))
   }
@@ -118,24 +118,24 @@ print.summary.plspm <- function(x, ...)
     cat("CROSSLOADINGS","\n")
     cros = NULL
     for (i in 1:length(x$model$blocks)) {
-      cros = rbind(cros, rep(NA, ncol(x$crossloadings[,-1])),
-                   as.matrix(x$crossloadings[tmp==i,-1]))
+      cros = rbind(cros, rep(NA, ncol(x$crossloadings[,-c(1,2)])),
+                   as.matrix(x$crossloadings[tmp==i,-c(1,2)]))
     } 
     rownames(cros) = out_mod_labs
     print(cros, na.print="", print.gap=2, digits=3)
 #    print(x$crossloadings, print.gap = 2, digits = 3)
     cat("\n")
-    cat("----------------------------------------------------------", "\n")    
+    cat("----------------------------------------------------------", "\n") 
   }
   cat("INNER MODEL","\n")
   print(x$inner_model, print.gap = 3, digits = 3)
   if (length(x$model) > 5)
   {
-    cat("----------------------------------------------------------", "\n")    
+    cat("----------------------------------------------------------", "\n") 
     cat("CORRELATIONS BETWEEN LVs","\n")
     print(x$correlations, print.gap = 2, digits = 3)
     cat("\n")
-    cat("----------------------------------------------------------", "\n")    
+    cat("----------------------------------------------------------", "\n") 
     cat("SUMMARY INNER MODEL","\n")
     print(x$inner_summary, print.gap = 2, digits = 3)
     cat("\n")
@@ -143,7 +143,7 @@ print.summary.plspm <- function(x, ...)
     cat("GOODNESS-OF-FIT","\n")
     print(x$gof, print.gap = 2, digits = 4)
     cat("\n")
-    cat("----------------------------------------------------------", "\n")        
+    cat("----------------------------------------------------------", "\n")   
     cat("TOTAL EFFECTS","\n")
     print(x$effects, print.gap = 2, digits = 3)
     if (!is.logical(x$boot))
