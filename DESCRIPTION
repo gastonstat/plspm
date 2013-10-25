@@ -68,7 +68,7 @@ Collate:
     'satis-plspm-ex.r'
     'russett-data.r'
     'plspm.fit.r'
-    'plspm.groups.R'
+    'plspm.groups.r'
     'test_dataset.r'
     'get_GQI.r'
     'get_locals_test.r'
