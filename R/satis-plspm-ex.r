@@ -30,7 +30,7 @@ satpls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_mod,
 innerplot(satpls)
 
 # plot loadings
-outerplot(satpls, what="loadings")
-
+outerplot(satpls, what = "loadings")
+ 
 # plot outer weights
-outerplot(satpls, what="weights")
+outerplot(satpls, what = "weights")

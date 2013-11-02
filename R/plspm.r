@@ -22,6 +22,8 @@
 #' @param scaling optional list of string vectors indicating the type of 
 #' measurement scale for each manifest variable specified in \code{blocks}.
 #' \code{scaling} must be specified when working with non-metric variables.
+#' Possible values: \code{"num"} (numeric), \code{"raw"}, \code{"nom"} (nominal), 
+#' and \code{"ord"} (ordinal).
 #' @param modes character vector indicating the type of measurement for each
 #' block. Possible values are: \code{"A", "B", "newA", "PLScore", "PLScow"}. 
 #' The length of \code{modes} must be equal to the length of \code{blocks}.
@@ -53,8 +55,7 @@
 #' Includes: path coeffs and R-squared for each endogenous latent variable}
 #' @return \item{scores}{Matrix of latent variables used to estimate the inner
 #' model. If \code{scaled=FALSE} then \code{scores} are latent variables
-#' calculated with the original data (non-stardardized). If \code{scaled=TRUE}
-#' then \code{scores} and \code{latents} have the same values}
+#' calculated with the original data (non-stardardized).}
 #' @return \item{path_coefs}{Matrix of path coefficients 
 #' (this matrix has a similar form as \code{path_matrix})}
 #' @return \item{crossloadings}{Correlations between the latent variables 
@@ -96,7 +97,7 @@
 #' @example R/satis-plspm-ex.r
 #' @export
 plspm <-
-function(Data, path_matrix, blocks, scaling = NULL, modes = NULL, 
+function(Data, path_matrix, blocks, modes = NULL, scaling = NULL,  
          scheme = "centroid", scaled = TRUE, tol = 0.000001, maxiter = 100, 
          plscomp = NULL, boot.val = FALSE, br = NULL, 
          dataset = TRUE)

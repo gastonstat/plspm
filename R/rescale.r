@@ -38,7 +38,7 @@
 #'  sat_modes = rep("A", 6)
 #'  
 #'  # apply plspm
-#'  my_pls = plspm(satisfaction, sat_path, sat_blocks, sat_modes, 
+#'  my_pls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_modes, 
 #'               scaled=FALSE)
 #'               
 #'  # rescaling standardized scores of latent variables

@@ -17,6 +17,10 @@
   character) to specify the blocks of manifest variables
   asociated to the latent variables.}
 
+  \item{scaling}{optional list of string vectors indicating
+  the type of measurement scale for each manifest variable
+  specified in \code{blocks}.}
+
   \item{modes}{character indicating the type of
   measurement.}
 
@@ -37,7 +41,7 @@
   non-metric data (only used if \code{scaling} is
   provided)}
 
-  \item{bootstrap}{whether bootstrap validation is
+  \item{boot.val}{whether bootstrap validation is
   performed.}
 
   \item{br}{integer indicating the number bootstrap

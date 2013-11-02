@@ -2,8 +2,8 @@
 \alias{plspm.fit}
 \title{Basic results for Partial Least Squares Path Modeling}
 \usage{
-  plspm.fit(Data, path_matrix, blocks, scaling = NULL,
-    modes = NULL, scheme = "centroid", scaled = TRUE,
+  plspm.fit(Data, path_matrix, blocks, modes = NULL,
+    scaling = NULL, scheme = "centroid", scaled = TRUE,
     tol = 1e-06, maxiter = 100, plscomp = NULL)
 }
 \arguments{

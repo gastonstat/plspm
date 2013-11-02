@@ -2,8 +2,8 @@
 \alias{plspm}
 \title{PLS-PM: Partial Least Squares Path Modeling}
 \usage{
-  plspm(Data, path_matrix, blocks, scaling = NULL,
-    modes = NULL, scheme = "centroid", scaled = TRUE,
+  plspm(Data, path_matrix, blocks, modes = NULL,
+    scaling = NULL, scheme = "centroid", scaled = TRUE,
     tol = 1e-06, maxiter = 100, plscomp = NULL,
     boot.val = FALSE, br = NULL, dataset = TRUE)
 }
@@ -23,7 +23,9 @@
   \item{scaling}{optional list of string vectors indicating
   the type of measurement scale for each manifest variable
   specified in \code{blocks}. \code{scaling} must be
-  specified when working with non-metric variables.}
+  specified when working with non-metric variables.
+  Possible values: \code{"num"} (numeric), \code{"raw"},
+  \code{"nom"} (nominal), and \code{"ord"} (ordinal).}
 
   \item{modes}{character vector indicating the type of
   measurement for each block. Possible values are:
@@ -80,9 +82,7 @@
   \item{scores}{Matrix of latent variables used to estimate
   the inner model. If \code{scaled=FALSE} then
   \code{scores} are latent variables calculated with the
-  original data (non-stardardized). If \code{scaled=TRUE}
-  then \code{scores} and \code{latents} have the same
-  values}
+  original data (non-stardardized).}
 
   \item{path_coefs}{Matrix of path coefficients (this
   matrix has a similar form as \code{path_matrix})}
@@ -162,10 +162,10 @@ satpls = plspm(satisfaction, sat_path, sat_blocks, modes = sat_mod,
 innerplot(satpls)
 
 # plot loadings
-outerplot(satpls, what="loadings")
-
+outerplot(satpls, what = "loadings")
+ 
 # plot outer weights
-outerplot(satpls, what="weights")
+outerplot(satpls, what = "weights")
 }
 \author{
   Gaston Sanchez, Giorgio Russolillo

@@ -61,7 +61,7 @@
 ## Example of REBUS PLS with simulated data
 
 # load simdata
-data(simdata)
+data(simdata, package='plspm')
 
 # Calculate global plspm
 sim_inner = matrix(c(0,0,0,0,0,0,1,1,0), 3, 3, byrow=TRUE)

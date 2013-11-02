@@ -71,7 +71,8 @@
 #'  sat_mod = rep("A", 6)
 #'  
 #'  # apply plspm
-#'  satpls = plspm(satisfaction, sat_path, sat_blocks, sat_mod, scaled=FALSE)
+#'  satpls = plspm(satisfaction, sat_path, sat_blocks, 
+#'                 modes = sat_mod, scaled = FALSE)
 #'  
 #'  # permutation test with 100 permutations
 #'  group_perm = plspm.groups(satpls, satisfaction$gender, 

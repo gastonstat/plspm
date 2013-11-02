@@ -106,7 +106,7 @@
 #'  }
 #'
 plspm.fit <-
-function(Data, path_matrix, blocks, scaling = NULL, modes = NULL, 
+function(Data, path_matrix, blocks, modes = NULL, scaling = NULL, 
          scheme = "centroid", scaled = TRUE, tol = 0.000001,
          maxiter = 100, plscomp = NULL)
 {

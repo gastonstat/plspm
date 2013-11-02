@@ -7,6 +7,8 @@
 #' @param path_matrix square (lower triangular) boolean matrix for inner model.
 #' @param blocks List of vectors (either numeric or character) to specify
 #' the blocks of manifest variables asociated to the latent variables.
+#' @param scaling optional list of string vectors indicating the type of 
+#' measurement scale for each manifest variable specified in \code{blocks}.
 #' @param modes character indicating the type of measurement.
 #' @param scheme string indicating the type of inner weighting scheme.
 #' @param scaled logical indicating whether scaling data is performed.
@@ -15,7 +17,7 @@
 #' @param plscomp optional vector indicating the number of PLS components
 #' (for each block) to be used when handling non-metric data 
 #' (only used if \code{scaling} is provided)
-#' @param bootstrap whether bootstrap validation is performed.
+#' @param boot.val whether bootstrap validation is performed.
 #' @param br integer indicating the number bootstrap resamples.
 #' @param dataset whether the data matrix should be retrieved.
 #' @return list of validated arguments

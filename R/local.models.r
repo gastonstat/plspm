@@ -111,14 +111,14 @@ local.models <- function(pls, y, Y = NULL)
   {
     if (k==1) {
       # global model
-      final.mod[[1]] = plspm(DM, IDM, new.sets, scaling, modes, scheme, scaled, 
-                             tol, maxiter, dataset=dataset)
+      final.mod[[1]] = plspm(DM, IDM, new.sets, scaling=scaling, modes=modes, 
+                             scheme, scaled, tol, maxiter, dataset=dataset)
     } else
     {
       units.k <- which(segments == levels(segments)[k-1])
       # local models
-      final.mod[[k]] = plspm(DM[units.k,], IDM, new.sets, scaling, modes, 
-                             scheme, scaled, tol, maxiter, dataset=dataset)
+      final.mod[[k]] = plspm(DM[units.k,], IDM, new.sets, scaling=scaling, 
+            modes=modes, scheme, scaled, tol, maxiter, dataset=dataset)
     }
   }
   names(final.mod) = c("glob.model", 
