@@ -93,8 +93,8 @@ rus_modes = c("A", "A", "A")
 PLS-PM using data set `russa` and scaling all 'NUM'
 ```ruby
 # PLS-PM using data set 'russa'
-rus_pls1 = plspm(russa, rus_path, rus_blocks, rus_scaling, rus_modes, 
-                 scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
+rus_pls1 = plspm(russa, rus_path, rus_blocks, scaling = rus_scaling, 
+    modes = rus_modes, scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
 
 rus_pls1
 
@@ -121,8 +121,8 @@ rus_scaling2 = list(c("NUM", "NUM", "NUM"),
                     c("NUM", "NUM", "NUM", "NOM"))
 
 # PLS-PM using data set 'russa'
-rus_pls2 = plspm(russa, rus_path, rus_blocks, rus_scaling2, rus_modes, 
-                 scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
+rus_pls2 = plspm(russa, rus_path, rus_blocks, scaling = rus_scaling2, 
+    modes = rus_modes, scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
 
 # outer model
 rus_pls2$outer_model
@@ -135,8 +135,8 @@ Now let's use data set `russb` (it contains a factor!)
 head(russb)
 
 # PLS-PM using data set 'russb'
-rus_pls3 = plspm(russb, rus_path, rus_blocks, rus_scaling2, rus_modes, 
-                 scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
+rus_pls3 = plspm(russb, rus_path, rus_blocks, scaling = rus_scaling2, 
+    modes = rus_modes, scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
 
 # outer model
 rus_pls3$outer_model
@@ -149,8 +149,8 @@ Now let's change modes
 rus_modes2 = c("newA", "newA", "newA")
 
 # PLS-PM using data set 'russa'
-rus_pls4 = plspm(russa, rus_path, rus_blocks, rus_scaling2, rus_modes2, 
-                 scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
+rus_pls4 = plspm(russa, rus_path, rus_blocks, scaling = rus_scaling2, 
+    modes = rus_modes2, scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
 
 # outer model
 rus_pls4$outer_model
@@ -176,8 +176,8 @@ rus_scaling3 = list(c("numeric", "numeric", "numeric"),
 rus_modes3 = c("newa", "NEWA", "NewA")
 
 # PLS-PM using data set 'russb'
-rus_pls5 = plspm(russb, rus_path, rus_blocchi, rus_scaling3, rus_modes3, 
-                 scheme = "CENTROID", plscomp = c(1,1,1), tol = 0.0000001)
+rus_pls5 = plspm(russb, rus_path, rus_blocchi, scaling = rus_scaling3, 
+    modes = rus_modes3, scheme = "CENTROID", plscomp = c(1,1,1), tol = 0.0000001)
 
 # outer model
 rus_pls5$outer_model
