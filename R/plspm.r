@@ -156,7 +156,7 @@ function(Data, path_matrix, blocks, modes = NULL, scaling = NULL,
     weights = get_weights_nonmetric(X, path_matrix, blocks, specs)
     ok_weights = test_null_weights(weights, specs)
     outer_weights = weights$w
-    LV = weights$Y    
+    LV = weights$Y
     X = weights$QQ  # quantified MVs
     colnames(X) = gens$mvs_names
   }
@@ -174,7 +174,7 @@ function(Data, path_matrix, blocks, modes = NULL, scaling = NULL,
   # Outer model: loadings, communalities, redundancy, crossloadings
   # =======================================================================
 #  xloads = cor(MV, LV)
-  xloads = cor(X, LV)
+  xloads = cor(X, LV, use='pairwise.complete.obs')
   loadings = rowSums(xloads * weights$ODM)
   communality = loadings^2
   R2_aux = rowSums(weights$ODM %*% diag(R2, gens$lvs, gens$lvs))

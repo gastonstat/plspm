@@ -48,6 +48,8 @@ unidim <- function(Data, blocks = NULL)
   block_sizes = lengths(blocks)
   blocklist = indexify(blocks)
   correction = sqrt((nrow(DM)-1) / nrow(DM)) 
+  # missing data flags
+  missing_data = sapply(DM, is_missing)
   
   # initializing indices
   Alpha = rep(1, lvs)
@@ -57,30 +59,38 @@ unidim <- function(Data, blocks = NULL)
   
   # calculate indices
   for (aux in 1:lvs)
-  {      
-    if (block_sizes[aux] != 1) 
-    { 
-      # scaling block
-      DM_block = DM[,blocklist == aux]
-      stdev_X = apply(DM_block, 2, sd) * correction 
-      X_scaled = scale(DM_block, scale=stdev_X)
-           
-      # PCA depending on block dimensions
-      if (nrow(X_scaled) < ncol(X_scaled)) {   
-        # more columns than rows
-        X_pca = princomp(t(X_scaled)) 
-        X_rho = t(X_scaled)
-      } else {   
-        # more rows than columns
-        X_pca = princomp(X_scaled)
-        X_rho = X_scaled
+  {
+    if (any(missing_data[blocklist == aux]))
+    {
+      Alpha[aux] = NA
+      Rho[aux] = NA
+      eig.1st[aux] = NA
+      eig.2nd[aux] = NA
+    } else {
+      if (block_sizes[aux] != 1) 
+      { 
+        # scaling block
+        DM_block = DM[,blocklist == aux]
+        stdev_X = apply(DM_block, 2, sd) * correction 
+        X_scaled = scale(DM_block, scale=stdev_X)
+        
+        # PCA depending on block dimensions
+        if (nrow(X_scaled) < ncol(X_scaled)) {   
+          # more columns than rows
+          X_pca = princomp(t(X_scaled)) 
+          X_rho = t(X_scaled)
+        } else {   
+          # more rows than columns
+          X_pca = princomp(X_scaled)
+          X_rho = X_scaled
+        }
+        
+        # indices
+        Alpha[aux] = get_alpha(X_scaled)
+        Rho[aux] = get_rho(X_rho, X_pca$scores[,1])
+        eig.1st[aux] = X_pca$sdev[1]^2
+        eig.2nd[aux] = X_pca$sdev[2]^2
       }
-      
-      # indices
-      Alpha[aux] = get_alpha(X_scaled)
-      Rho[aux] = get_rho(X_rho, X_pca$scores[,1])
-      eig.1st[aux] = X_pca$sdev[1]^2
-      eig.2nd[aux] = X_pca$sdev[2]^2
     }
   }
   
@@ -124,6 +134,8 @@ alpha <- function(X)
   if (!is.matrix(X)) X = as.matrix(X)
   if (!is.numeric(X))
     stop("\n'alpha()' requires a numeric matrix")
+  if (has_missing(X))
+    stop("\n'X' contains missing values")
   
   # cronbach's alpha
   Alpha = 1
@@ -172,6 +184,8 @@ rho <- function(X)
   if (!is.matrix(X)) X = as.matrix(X)
   if (!is.numeric(X))
     stop("\n'rho()' requires a numeric matrix")
+  if (has_missing(X))
+    stop("\n'X' contains missing values")
   
   # dillon-goldstein's rho
   Rho = 1
