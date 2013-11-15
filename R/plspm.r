@@ -156,8 +156,8 @@ function(Data, path_matrix, blocks, modes = NULL, scaling = NULL,
     weights = get_weights_nonmetric(X, path_matrix, blocks, specs)
     ok_weights = test_null_weights(weights, specs)
     outer_weights = weights$w
-    LV = weights$Y
-    X = do.call(cbind, weights$QQ)  # quantified MVs
+    LV = weights$Y    
+    X = weights$QQ  # quantified MVs
     colnames(X) = gens$mvs_names
   }
   

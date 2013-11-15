@@ -1,0 +1,146 @@
+\documentclass[12pt]{article}
+\usepackage{upquote}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\usepackage{color}
+\definecolor{darkgray}{rgb}{0.3,0.3,0.3}
+\definecolor{lightgray}{rgb}{0.5,0.5,0.5}
+\definecolor{tomato}{rgb}{0.87,0.32,0.24}
+\definecolor{myblue}{rgb}{0.066,0.545,0.890}
+\definecolor{linkcolor}{rgb}{0.87,0.32,0.24}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  urlcolor=linkcolor,
+  linkcolor=linkcolor
+}
+
+
+\setlength{\parindent}{0in}
+\newcommand{\R}{\textsf{R}}
+\newcommand{\plspm}{\texttt{plspm}}
+\newcommand{\fplspm}{\texttt{plspm()}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% \VignetteIndexEntry{Introduction to plspm}
+% \VignetteEngine{knitr}
+
+\begin{document}
+\title{Introduction to \texttt{plspm}}
+\author{
+ \textbf{\textcolor{darkgray}{G}}\textcolor{lightgray}{aston} 
+ \textbf{\textcolor{darkgray}{S}}\textcolor{lightgray}{anchez} \\
+  \small \texttt{\href{http://www.gastonsanchez.com}
+{www.gastonsanchez.com}}
+}
+\date{}
+\maketitle
+
+
+<<echo=FALSE, message=FALSE>>=
+library(plspm)
+@
+
+\section{Introduction}
+\plspm{} is an R{} package for performing \textbf{Partial Least Squares Path Modeling} (PLS-PM) analysis. Briefly, PLS-PM is a multivariate data analysis method for analyzing systems of relationships between multiple sets of variables. This vignette presents a short introduction to \plspm{} but is doesn't provide a full description of all the package's capabilities. An extended documentation can be found in the book \textbf{PLS Path Modeling with R} freely available at: \\
+\url{http://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf}
+
+
+
+\section{Installation and Usage}
+
+
+\subsection{Data Frame}
+To test if we have different types of data frames we can use the following functions:
+\begin{center}
+ \begin{tabular}{l l}
+  \multicolumn{2}{c}{\textbf{Testing Data Frames}} \\
+  \hline
+  Function & Description \\
+  \hline
+  \texttt{is\_dataframe()} & tests if an object is a data frame \\
+  \texttt{is\_numeric\_dataframe()} & tests if an object is a numeric data frame \\
+  \texttt{is\_string\_dataframe()} & tests if an object is a string data frame \\
+  \texttt{is\_not\_dataframe()} & tests if an object is not a data frame \\
+  \hline
+ \end{tabular}
+\end{center}
+
+
+\subsection{Matrices and data frames attributes}
+Other functions related to matrices and data frames allows us to ask whether or not some properties are present:
+\begin{center}
+ \begin{tabular}{l l}
+  \multicolumn{2}{c}{\textbf{Matrices and Data Frames attributes}} \\
+  \hline
+  Function & Description \\
+  \hline
+  \texttt{has\_dimension()} & tests if an object has dimension \\
+  \texttt{is\_one\_dim()} & tests if an object has one-dimension \\
+  \texttt{has\_rownames()} & tests if an object row names \\
+  \texttt{has\_colnames()} & tests if an object column names \\
+  \hline
+ \end{tabular}
+\end{center}
+
+
+
+\subsection{Missing Values}
+For testing missing values, infinite values, not numbers, \texttt{tester} provides the following functions:
+\begin{center}
+ \begin{tabular}{l l}
+  \multicolumn{2}{c}{\textbf{Testing Missing Values}} \\
+  \hline
+  Function & Description \\
+  \hline
+  \texttt{has\_missing()} & tests if an object has missing values \\
+  \texttt{has\_infinite()} & tests if an object has infinite values \\
+  \texttt{has\_not\_a\_number()} & tests if an object has 'Not a Number' \\
+  \texttt{has\_nas()} & tests if an object has \texttt{NA, Inf, -Inf, NaN} \\
+  \hline
+ \end{tabular}
+\end{center}
+
+
+\subsection{Comparisons}
+Another interesting set of functions that come in \texttt{tester} are those for comparing purposes:
+\begin{center}
+ \begin{tabular}{l l}
+  \multicolumn{2}{c}{\textbf{Comparison}} \\
+  \hline
+  Function & Description \\
+  \hline
+  \texttt{same\_class()} & tests if two objects have the same class \\
+  \texttt{same\_mode()} & tests if two objects have the same mode \\
+  \texttt{same\_type()} & tests if two objects have the same type of \\
+  \texttt{same\_length()} & tests if two objects have the same length \\
+  \texttt{same\_dim()} & tests if two matrices (or data frames) have the same dimension \\
+  \texttt{same\_nrow()} & tests if two matrices (or data frames) have the same number of rows \\
+  \texttt{same\_ncol()} & tests if two matrices (or data frames) have the same number of columns \\
+  \hline
+ \end{tabular}
+\end{center}
+
+
+\subsection{Other}
+\texttt{tester} comes with many more functions that will allow you to check ---in a friendly way--- whether some common R objects have certain characteristics. Some of the extra available functions are:
+\begin{center}
+ \begin{tabular}{l l}
+  \multicolumn{2}{c}{\textbf{Other Tests}} \\
+  \hline
+  Function & Description \\
+  \hline
+  \texttt{is\_tabular()} & tests if an object is a matrix or data frame \\
+  \texttt{is\_multiple()} & tests if a number is multiple of a given number \\
+  \texttt{has\_names()} & tests if an object has names \\
+  \texttt{list\_of\_vectors()} & tests if an object is a list of vectors \\
+  \texttt{list\_of\_numeric\_vectors()} & tests if an object is a list of numeric vectors \\
+  \texttt{list\_of\_string\_vectors()} & tests if an object is a list of string vectors \\
+  \texttt{list\_of\_logical\_vectors()} & tests if an object is a list of logical vectors \\
+  \hline
+ \end{tabular}
+\end{center}
+
+
+
+\end{document}

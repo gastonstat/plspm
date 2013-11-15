@@ -253,7 +253,12 @@ function(X, path_matrix, blocks, specs)
     results = NULL
   } else {
     W = list_to_matrix(lapply(w, as.numeric))
-    w = unlist(lapply(w, as.numeric))
+    # open new lines
+    QQ = do.call("cbind", QQ)
+    W = W %*% diag(1/(apply(QQ %*% W, 2, sd)/correction), lvs, lvs)
+    # end new lines
+#    w = unlist(lapply(w, as.numeric))
+    w = rowSums(W)
     #    names(w) = colnames(X)
     dimnames(W) = list(colnames(X), rownames(path_matrix))
     dimnames(Y) = list(rownames(X), rownames(path_matrix))
