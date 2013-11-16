@@ -173,8 +173,7 @@ function(Data, path_matrix, blocks, modes = NULL, scaling = NULL,
   # =======================================================================
   # Outer model: loadings, communalities, redundancy, crossloadings
   # =======================================================================
-#  xloads = cor(MV, LV)
-  xloads = cor(X, LV, use='pairwise.complete.obs')
+  xloads = cor(X, LV, use = 'pairwise.complete.obs')
   loadings = rowSums(xloads * weights$ODM)
   communality = loadings^2
   R2_aux = rowSums(weights$ODM %*% diag(R2, gens$lvs, gens$lvs))
