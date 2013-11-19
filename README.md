@@ -183,6 +183,36 @@ rus_pls5 = plspm(russb, rus_path, rus_blocchi, scaling = rus_scaling3,
 rus_pls5$outer_model
 ```
 
+## PLS-PM with non missing data?
+Another nice feature is that you can perform a PLS-PM analysis on data containing missing values.
+
+### Example
+We'll use the dataset `russa` and add some missing values. Then we'll handle all variables with a numeric `scaling`.
+```ruby
+# let's add missing values to russa
+russNA = russa
+russNA[1,1] = NA
+russNA[4,4] = NA
+russNA[6,6] = NA
+
+# PLS-PM using data set 'russa'
+rus_pls6 = plspm(russNA, rus_path, rus_blocks, scaling = rus_scaling, 
+    modes = rus_modes, scheme = "centroid", plscomp = c(1,1,1), tol = 0.0000001)
+
+rus_pls6
+
+# outer model
+rus_pls6$outer_model
+
+# inner model
+rus_pls6$inner_model
+
+# scores
+head(rus_pls6$scores)
+
+# plot inner model
+plot(rus_pls6)
+```
 
 Authors Contact
 ---------------
