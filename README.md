@@ -183,7 +183,7 @@ rus_pls5 = plspm(russb, rus_path, rus_blocchi, scaling = rus_scaling3,
 rus_pls5$outer_model
 ```
 
-## PLS-PM with non missing data?
+## PLS-PM with non missing data
 Another nice feature is that you can perform a PLS-PM analysis on data containing missing values.
 
 ### Example
