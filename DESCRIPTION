@@ -1,7 +1,7 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling (PLS-PM)
-Version: 0.4.0
+Version: 0.4.1
 Date: 2013-12-08
 Authors@R: c(
     person("Gaston", "Sanchez",
@@ -24,7 +24,8 @@ Suggests:
     FactoMineR,
     ggplot2,
     reshape,
-    testthat
+    testthat,
+    knitr
 VignetteBuilder: knitr
 License: GPL-3
 LazyLoad: yes
@@ -66,7 +67,6 @@ Collate:
     'test_null_weights.r'
     'unidimensionality.r'
     'test_factors.r'
-    'satis-plspm-ex.r'
     'russett-data.r'
     'plspm.fit.r'
     'plspm.groups.r'
@@ -80,7 +80,6 @@ Collate:
     'rebus.pls.r'
     'rebus.test.r'
     'res.clus.r'
-    'sim-rebus-ex.r'
     'get_PLSR.r'
     'get_PLSR_NA.r'
     'quantiplot.r'

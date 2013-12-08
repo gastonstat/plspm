@@ -2,10 +2,10 @@
 ## example with customer satisfaction analysis
 ## group comparison based on the segmentation variable "gender"
 
-library(plspm)
+#library(plspm)
 
 # load dataset satisfaction
-data(satisfaction)
+data("satisfaction")
 
 # path matrix
 IMAG = c(0,0,0,0,0,0)
