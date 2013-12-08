@@ -2,7 +2,7 @@ Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling (PLS-PM)
 Version: 0.4.0
-Date: 2013-11-26
+Date: 2013-12-08
 Authors@R: c(
     person("Gaston", "Sanchez",
     email = "gaston.stat@gmail.com", role = c("aut", "cre")),
@@ -23,6 +23,7 @@ Suggests:
     plsdepot,
     FactoMineR,
     ggplot2,
+    reshape,
     testthat
 VignetteBuilder: knitr
 License: GPL-3

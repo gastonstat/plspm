@@ -5,7 +5,9 @@
 #' 
 #' @details
 #' If both \code{lv} and \code{mv} are specified, only the value of \code{lv}
-#' will be taken into account.
+#' will be taken into account. \cr
+#' If the given \code{lv} have more than 15 variables, only the first 15
+#' are plotted.
 #' 
 #' @param pls a non-metric \code{"plspm"} object
 #' @param lv number or name of latent variable
@@ -27,12 +29,12 @@ function(pls, lv = NULL, mv = NULL, pch = 16, col = "darkblue", lty = 2, ...)
   # plots of a block (latent variable)
   if (!is.null(lv)) {
     quantiplot_lv(pls, lv, pch=pch, col=col, lty=lty, ...)
+  } else {
+    # plot of a manifest variable
+    if (!is.null(mv)) {
+      quantiplot_mv(pls, mv, pch=pch, col=col, lty=lty, ...)
+    }     
   }
-  
-  # plot of a manifest variable
-  if (!is.null(mv)) {
-    quantiplot_mv(pls, mv, pch=pch, col=col, lty=lty, ...)
-  }   
   
 }
 
@@ -77,14 +79,27 @@ check_lv_mv <- function(lv, mv, lvs_names, mvs_names)
 quantiplot_lv <- 
 function(pls, lv, pch, col, lty, ...)
 {
+#  # fixed rows and columns vectors to set a layout window 
+#  rs = c(1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 3, 3)
+#  cs = c(1, 2, 3, 2, 3, 3, 4, 4, 3, 5, 4, 4)
+#  # matrix for graphical layout 
+#  layout_mat = cbind(1:12, rs, cs)
+  
   # fixed rows and columns vectors to set a layout window 
-  rs = c(1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 3, 3)
-  cs = c(1, 2, 3, 2, 3, 3, 4, 4, 3, 5, 4, 4)
+  rs = c(1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3)
+  cs = c(1, 2, 3, 2, 3, 3, 4, 4, 3, 5, 4, 4, 5, 5, 5)
   # matrix for layout 
-  layout_mat = cbind(1:12, rs, cs)
+  layout_mat = cbind(1:15, rs, cs)
   
   # get original and quantified mvs in 'lv' block
   mvs = pls$model$blocks[[lv]]
+  
+  # No more than 15 mvs can be plotted
+  if (length(mvs) > 15) {
+    warning("'quantiplot()' can show only 15 indicators")
+    mvs = mvs[1:15]
+  }
+  
   mvs_original = pls$data[,mvs]
   mvs_quantified = pls$manifests[,mvs]
   # if only one mv then convert to matrix
@@ -111,7 +126,6 @@ function(pls, lv, pch, col, lty, ...)
   }
   # reset graphical parameters
   par(op)
-  
 }
 
 quantiplot_mv <- 

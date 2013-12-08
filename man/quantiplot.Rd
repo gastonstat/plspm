@@ -28,6 +28,8 @@
 }
 \details{
   If both \code{lv} and \code{mv} are specified, only the
-  value of \code{lv} will be taken into account.
+  value of \code{lv} will be taken into account. \cr If the
+  given \code{lv} have more than 15 variables, only the
+  first 15 are plotted.
 }
 

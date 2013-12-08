@@ -57,6 +57,9 @@ check_scaling <- function(scaling, scaled, blocks)
     if (length(blocks) != length(scaling)) {
       stop("\nLength of 'scaling' differs from length of 'blocks'.")
     }
+    if (!identical(lengths(blocks), lengths(scaling))) {
+      stop("\nLengths of 'scaling' differs from lengths of 'blocks'.")
+    }
     
     # string manipulation of elements in 'scaling'
     scaling_aux = tolower(unlist(scaling))

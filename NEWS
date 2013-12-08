@@ -1,4 +1,4 @@
-Version 0.4.0 (2013-10-14)
+Version 0.4.0 (2013-12-08)
 ------------------------------------------------------------
 
 NEW FEATURES
@@ -16,6 +16,8 @@ all the cool features for handling non-metric data.
 specify blocks using character strings
 
 * `inner_model` gives the full set of coefficients results from 'lm'
+
+* Simplified output of `plspm()` containing data frames compatible with ggplot2 
 
 Version 0.3.6 (2013-01-28)
 ------------------------------------------------------------

@@ -14,6 +14,7 @@
   urlcolor=linkcolor,
   linkcolor=linkcolor
 }
+\usepackage{parskip}
 
 
 \setlength{\parindent}{0in}
@@ -26,120 +27,303 @@
 % \VignetteEngine{knitr}
 
 \begin{document}
-\title{Introduction to \texttt{plspm}}
-\author{
- \textbf{\textcolor{darkgray}{G}}\textcolor{lightgray}{aston} 
- \textbf{\textcolor{darkgray}{S}}\textcolor{lightgray}{anchez} \\
-  \small \texttt{\href{http://www.gastonsanchez.com}
-{www.gastonsanchez.com}}
-}
+\title{Introduction to the \R{} package \texttt{plspm}}
+\author{\textcolor{darkgray}{Gaston Sanchez, Laura Trinchera, Giorgio Russolillo}}
 \date{}
 \maketitle
 
 
 <<echo=FALSE, message=FALSE>>=
 library(plspm)
+options(width = 80)
 @
 
 \section{Introduction}
-\plspm{} is an R{} package for performing \textbf{Partial Least Squares Path Modeling} (PLS-PM) analysis. Briefly, PLS-PM is a multivariate data analysis method for analyzing systems of relationships between multiple sets of variables. This vignette presents a short introduction to \plspm{} but is doesn't provide a full description of all the package's capabilities. An extended documentation can be found in the book \textbf{PLS Path Modeling with R} freely available at: \\
-\url{http://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf}
+\plspm{} is an \R{} package for performing \textbf{Partial Least Squares Path Modeling} (PLS-PM) analysis. Briefly, PLS-PM is a multivariate data analysis method for analyzing systems of relationships between multiple sets of variables. In this vignette we present a short introduction to \plspm{} without providing a full description of all the package's capabilities. An extended documentation can be found in the book \textbf{PLS Path Modeling with R} freely available at: \url{http://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf}
+
+
+\section{About PLS Path Modeling}
+Partial Least Squares Path Modeling (PLS-PM) is one of the methods from the broad family of PLS techniques. It is also known as the PLS approach to Structural Equation Modeling, and it was originally developed by Herman Wold and his research group during the 1970s and the early 1980s. Around the PLS community, the term Path Modeling is preferred to that of Structural Equation Modeling, although both terms can be found within the PLS literature. Our preferred definition of PLS-PM is based on three fundamental concepts:
+\begin{enumerate}
+ \item It is a multivariate method for analyzing multiple blocks of variables
+ \item Each block of variables plays the role of a latent variable
+ \item It is assumed that there is a system of linear relationships between blocks
+\end{enumerate}
+
+In other words: PLS-PM provides a framework for analyzing multiple relationships between a set of blocks of variables (or data tables). It is supposed that each block of variables is represented by a latent construct or theoretical concept; the relationships among the blocks are established taking into account previous knowledge (theory) of the phenomenon under analysis. There are plenty of references about PLS-PM, but we will only mention one from Wold, and two more recent ones:
+\begin{itemize}
+ \item Esposito Vinzi V., Chin W.W., Henseler J., Wang W. (2010) \textsf{Handbook of Partial Least Squares: Concepts, Methods and Applications}. Springer.
+ \item Tenenhaus M., Esposito Vinzi V., Chatelin Y.M., and Lauro C. (2005) \textsf{PLS Path Modelling}. \textit{Computational Statistics \& Data Analysis}, 48: 159-205.
+ \item Wold H. (1982) \textsf{Soft modeling: the basic design and some extensions}. In: K.G. Joreskog \& H. Wold (Eds.), \textit{Systems under indirect observations: Causality, structure, prediction}, Part 2, pp. 1-54. Amsterdam: Holland.
+\end{itemize}
 
 
 
 \section{Installation and Usage}
+\plspm{} is freely available from the Comprehensive \R{} Archive Network, better known as CRAN, at:
+\url{http://cran.r-project.org/web/packages/plspm/index.html}
+
+Since version 0.4.0, \plspm{} contains a set of features for handling non-metric data (discrete, ordina, categorial, qualitative, etc). More information related with non-metric PLS-PM will be available in a separated vignette (coming soon).
+
+\subsection{Installation}
+The main version of the package is the one hosted in CRAN. You can install it like you would install any other package in \R{} by using the function \texttt{install.packages()}. In your \R{} console simply type:
+<<install_plpsm, eval=FALSE>>=
+# installation 
+install.packages("plspm")
+@
+
+Once \plspm{} has been installed, you can use one of the functions \code{library()} or \code{require()} to load the package:
+<<load_plspm, eval=FALSE>>=
+# load package 'plspm' 
+library("plspm")
+@
 
 
-\subsection{Data Frame}
-To test if we have different types of data frames we can use the following functions:
-\begin{center}
- \begin{tabular}{l l}
-  \multicolumn{2}{c}{\textbf{Testing Data Frames}} \\
+\subsection{Development Version}
+In addition to the stable version in CRAN, there is also a development version that lives in a github repository: \url{https://github.com/gastonstat/plspm}. This version will usually be the latest version that we're developing and that will eventually end up in CRAN. Most people don't need to use this version but if you feel tempted, intrigued, or adventurous, you are welcome to play with it. To download the \textit{devel} version in \R{}, you will need to use the package \texttt{"devtools"} ---which means you have to install it first---. Once you installed \texttt{"devtools"}, type the following in your \R{} console:
+<<devel_plspm, eval=FALSE>>=
+# load devtools
+library(devtools)
+
+# then download 'plspm' using 'install_github' 
+install_github("plspm", username = "gastonstat")
+
+# finally, load it with library()
+library(plspm)
+@
+
+
+\section{What's in \plspm{}}
+\plspm{} comes with a number of functions to perform a series of different types of analysis. The main function, which has the same name as the package, is the function \fplspm{} which is designed for running a full PLS-PM analysis. A modified version of \fplspm{} is its sister function \code{plspm.fit()} which is intended to perform a PLS-PM analysis with limited results. In other words, \fplspm{} is the deluxe version, while \code{plspm.fit()} is a minimalist option.
+
+The accessory functions of \fplspm{} are the plotting and the summary functions. The \code{plot()} method is a wraper of the functions \code{innerplot()} and \code{outerplot()} which allow you to display the results of the inner and outer model, respectively. In turn, the \code{summary()} function will display the results in a similar format like other standard software for PLS-PM.
+
+In third place we have the function \code{plspm.groups()} which allows you to compare two groups (i.e. two models). This function offers two options for doing the comparison: a bootstrap t-test, and a non-parametric permutation test.
+
+In fourth place, thanks to the collaboration of Laura Trinchera, there's the set of functions dedicated to the detection of latent classes by using \textbf{REBUS-PLS}.
+
+Last but not least, \fplspm{} also comes with several data sets to play with: \code{satisfaction}, \code{mobile}, \code{spainfoot}, \code{soccer}, \code{offense}, \code{technology}, \code{oranges}, \code{wines}, \code{arizona}, \code{russett}, \code{russa}, \code{russb}, and \code{sim.data}.
+
+
+
+\section{Quick Example with \fplspm{}}
+In order to show a toy analysis example with \fplspm{}, we will use the \code{russett} data set which is one of the traditional examples for presenting PLS-PM. To load the data, simple type in your \R{} console:
+<<load_russett>>=
+# laod data set
+data(russett)
+@
+
+\subsection{Data \code{russett}}
+The data conatins 11 variales about agricultural inequality, industrial development, and political instability measured on 47 countries, collected by Ruseett B. M. in his 1964 paper: \textsf{The Relation of Land Tenure to Politics}. \textit{World Politics}, 16:3, pp. 442-454.
+
+To get an idea of what the data looks like we can use the \texttt{head()} function which will show us the first \texttt{n} rows in \texttt{russett}
+<<head_russett, size='small'>>=
+# take a look at the data
+head(russett)
+@
+
+
+The description of each variable is given in the following table:
+
+\begin{table}[h]
+ \caption{Description of variables in data \code{russett}} 
+ \centering
+ \begin{tabular}{l l l}
   \hline
-  Function & Description \\
+  Variable & Description & Block \\
   \hline
-  \texttt{is\_dataframe()} & tests if an object is a data frame \\
-  \texttt{is\_numeric\_dataframe()} & tests if an object is a numeric data frame \\
-  \texttt{is\_string\_dataframe()} & tests if an object is a string data frame \\
-  \texttt{is\_not\_dataframe()} & tests if an object is not a data frame \\
+  \code{gini} & Inequality of land distribution & \code{AGRIN}  \\
+  \code{farm} & Percentage of farmers that own half of the land & \code{AGRIN} \\
+  \code{rent} & Percentage of farmers that rent all their land & \code{AGRIN} \\
+  \code{gnpr} & Gross national product per capita & \code{INDEV} \\
+  \code{labo} & Percentage of labor force employed in agriculture & \code{INDEV} \\
+  \code{inst} & Instability of executive & \code{POLINS} \\
+  \code{ecks} & Number of violent internal war incidents & \code{POLINS} \\
+  \code{death} & Number of people killed as a result of civic group violence & \code{POLINS} \\
+  \code{demostab} & Political regime: stable democracy & \code{POLINS} \\
+  \code{demoinst} & Political regime: unstable democracy & \code{POLINS} \\
+  \code{dictator} & Political regime: dictatorship & \code{POLINS} \\
   \hline
  \end{tabular}
-\end{center}
+ \label{tab:spainfoot}
+\end{table}
+
+The proposed structural model consists of three latent variables: Agricultural Inequality (\code{AGRIN}), Industrial Development (\code{INDEV}), and Political Instability (\code{POLINS}). The model statement for the relationships between latent variables can be declared as follows:
+
+\begin{quote}
+\textit{The Political Instability of a country depends on both its Agricultural Inequality, and its Industrial Development.}
+\end{quote}
 
 
-\subsection{Matrices and data frames attributes}
-Other functions related to matrices and data frames allows us to ask whether or not some properties are present:
-\begin{center}
- \begin{tabular}{l l}
-  \multicolumn{2}{c}{\textbf{Matrices and Data Frames attributes}} \\
-  \hline
-  Function & Description \\
-  \hline
-  \texttt{has\_dimension()} & tests if an object has dimension \\
-  \texttt{is\_one\_dim()} & tests if an object has one-dimension \\
-  \texttt{has\_rownames()} & tests if an object row names \\
-  \texttt{has\_colnames()} & tests if an object column names \\
-  \hline
- \end{tabular}
-\end{center}
+Besides the data, the other main ingredients that we need for running a PLS-PM analysis are: an inner model (i.e. structural model), and an outer model (i.e. measurement model). With other software that provide a graphical interface, the inner and the outer model are typically defined by drawing a path diagram. This is not the case with \plspm{}. Instead, you need to define the structural relationships in matrix format, and you also need to specify the different blocks of variables. But don't be scared, this sounds more complicated than it is. Once you learn the basics, you'll realize how convenient it is to define a PLS path model for \fplspm{}.
+
+
+\subsubsection{Path Model Matrix}
+The first thing to do is to define the inner model in matrix format. More specifically this implies that you need to provide the structural relationships in what we call a \code{path\_matrix}. 
+<<rus_path_diagram, fig.width=6, fig.height=4, out.width='.6\\linewidth', out.height='.4\\linewidth', fig.align='center', fig.pos='h', fig.cap='Path diagram of the inner model', echo=FALSE>>=
+# path matrix
+AGRIN = c(0, 0, 0)
+INDEV = c(0, 0, 0)
+POLINS = c(1, 1, 0)
+rus_path = rbind(AGRIN, INDEV, POLINS)
+
+# plot the path matrix
+op = par(mar = rep(0,4))
+innerplot(rus_path)
+par(op)
+@
+
+
+To do this, you must follow a pair of important guidelines. The \code{path\_matrix} must be a lower triangular boolean matrix. In other words, it must be a square matrix (same number of rows and columns); the elements in the diagonal and above it must be zeros; and the elements below the diagonal can be either zeros or ones. Here's how the path matrix should be defined:
+<<path_matrix>>=
+# path matrix (inner model realtionships)
+AGRIN = c(0, 0, 0)
+INDEV = c(0, 0, 0)
+POLINS = c(1, 1, 0)
+rus_path = rbind(AGRIN, INDEV, POLINS)
+
+# add optional column names
+colnames(rus_path) = rownames(rus_path)
+
+# how does it look like?
+rus_path
+@
+
+The way in which you should read this matrix is by ``columns affecting rows''. A number one in the cell \textit{i, j} (i-th row and j-th column) means that column \textit{j} affects row \textit{i}. For instance, the one in the cell 3,1 means that \code{AGRIN} affects \code{POLINS}. The zeros in the diagonal of the matrix mean that a latent variable cannot affect itself. The zeros above the diagonal imply that PLS-PM only works wiht non-recursive models (no loops in the inner model).
+
+We can also use the function \code{innerplot()} that allows us to visualize the \code{path\_matrix} in a path diagram format
+<<innerplot_rus_path, fig.width=5, fig.height=3.5, out.width='.65\\linewidth', out.height='.4\\linewidth', fig.align='center', fig.pos='h', echo=c(1,3)>>=
+# plot the path matrix
+op = par(mar = rep(0,4))
+innerplot(rus_path)
+par(op)
+@
 
 
 
-\subsection{Missing Values}
-For testing missing values, infinite values, not numbers, \texttt{tester} provides the following functions:
-\begin{center}
- \begin{tabular}{l l}
-  \multicolumn{2}{c}{\textbf{Testing Missing Values}} \\
-  \hline
-  Function & Description \\
-  \hline
-  \texttt{has\_missing()} & tests if an object has missing values \\
-  \texttt{has\_infinite()} & tests if an object has infinite values \\
-  \texttt{has\_not\_a\_number()} & tests if an object has 'Not a Number' \\
-  \texttt{has\_nas()} & tests if an object has \texttt{NA, Inf, -Inf, NaN} \\
-  \hline
- \end{tabular}
-\end{center}
+\subsubsection{List of Blocks for Outer Model}
+The second ingredient is the outer model. The way in which the outer model is defined is by using a list. Basically, the idea is to tell the \fplspm{} function what variables of the data set are associated with what latent variables. Here's how you do it in \R{}:
+<<rus_blocks>>=
+# list indicating what variables are associated with what latent variables
+rus_blocks = list(1:3, 4:5, 6:11)
+@
+
+The list above contains three elements, one per each latent variable. Each element is a vector of indices. Thus, the first latent variable, \code{AGRIN}, is associated with the first three columns of the data set. \code{INDEV} is formed by the columns from 4 and 5 in the data set. In turn, \code{INDEV} is formed by the columns from 6 to 11.
+
+Alternatively, you can also specify the list of \code{blocks} by giving the names of the variables forming each block:
+<<rus_blocks_str, tidy=FALSE>>=
+# list indicating what variables are associated with what latent variables
+rus_blocks = list(
+  c("gini", "farm", "rent"),
+  c("gnpr", "labo"),
+  c("inst", "ecks", "death", "demostab", "demoinst", "dictator"))
+@
 
 
-\subsection{Comparisons}
-Another interesting set of functions that come in \texttt{tester} are those for comparing purposes:
-\begin{center}
- \begin{tabular}{l l}
-  \multicolumn{2}{c}{\textbf{Comparison}} \\
-  \hline
-  Function & Description \\
-  \hline
-  \texttt{same\_class()} & tests if two objects have the same class \\
-  \texttt{same\_mode()} & tests if two objects have the same mode \\
-  \texttt{same\_type()} & tests if two objects have the same type of \\
-  \texttt{same\_length()} & tests if two objects have the same length \\
-  \texttt{same\_dim()} & tests if two matrices (or data frames) have the same dimension \\
-  \texttt{same\_nrow()} & tests if two matrices (or data frames) have the same number of rows \\
-  \texttt{same\_ncol()} & tests if two matrices (or data frames) have the same number of columns \\
-  \hline
- \end{tabular}
-\end{center}
+By default, \fplspm{} will set the measurement of the latent variables in reflective mode, known as \textit{mode A} in the PLSPM world. However, it is a good idea if you explicitly provide the vector of measurement \code{modes} by using a character vector with as many letters as latent variables:
+<<rus_modes>>=
+# all latent variables are measured in a reflective way
+rus_modes = rep("A", 3)
+@
 
 
-\subsection{Other}
-\texttt{tester} comes with many more functions that will allow you to check ---in a friendly way--- whether some common R objects have certain characteristics. Some of the extra available functions are:
-\begin{center}
- \begin{tabular}{l l}
-  \multicolumn{2}{c}{\textbf{Other Tests}} \\
-  \hline
-  Function & Description \\
-  \hline
-  \texttt{is\_tabular()} & tests if an object is a matrix or data frame \\
-  \texttt{is\_multiple()} & tests if a number is multiple of a given number \\
-  \texttt{has\_names()} & tests if an object has names \\
-  \texttt{list\_of\_vectors()} & tests if an object is a list of vectors \\
-  \texttt{list\_of\_numeric\_vectors()} & tests if an object is a list of numeric vectors \\
-  \texttt{list\_of\_string\_vectors()} & tests if an object is a list of string vectors \\
-  \texttt{list\_of\_logical\_vectors()} & tests if an object is a list of logical vectors \\
-  \hline
- \end{tabular}
-\end{center}
+\subsection{Running \fplspm{}}
+Now we are ready to run our first PLS path model with the function \fplspm{}. You need to plug-in the data set, the \code{path\_matrix}, the list of \code{blocks}, and the vector of \code{modes}, like this:
+<<plspm_russet>>=
+# run plspm analysis
+rus_pls = plspm(russett, rus_path, rus_blocks, modes = rus_modes) 
+
+# what's in foot_pls?
+rus_pls
+@
+
+What we get in \code{rus\_pls} is an object of class \code{"plspm"}. Everytime you type an object of this class you will get a display with the previous list of results. For example, if you want to inspect the matrix of path coefficients, simply type:
+<<path_coefs>>=
+# path coefficients
+rus_pls$path_coefs
+@
+
+Likewise, if you want to inspect the results of the inner model just type:
+<<inner_model>>=
+# inner model
+rus_pls$inner_model
+@
+
+In addition, there is a \code{summary()} method that you can apply to any obect of class \code{"plspm"}. This function gives a full summary with the standard results provided in most software for PLS Path Modeling. We won't display the bunch of stuff that \code{summary()} provides but we recommend you to check it out in your computer:
+<<apply_summary_ruspls, eval=FALSE>>=
+# summarized results
+summary(rus_pls)
+@
+
+
+\subsection{Plotting results}
+One of the nice features about \plspm{} is that you can also take a peek of the results using the function \code{plot()}. By default, this function displays the path coefficients of the inner model:
+<<rus_pls_innerplot, fig.width=4.5, fig.height=3, out.width='.7\\linewidth', out.height='.4\\linewidth', fig.align='center', fig.pos='h', echo=c(1,3)>>=
+# plot the results (inner model)
+op = par(mar = rep(0, 4))
+plot(rus_pls)
+par(op)
+@
+
+In order to check the results of the outer model, let's say the loadings, you need to use the parameter \code{what} of the \code{plot()} function
+<<rus_pls_loadings_plot, fig.width=6, fig.height=2.5, out.width='1\\linewidth', out.height='.45\\linewidth', fig.align='center', fig.pos='h', echo=c(1,3)>>=
+# plot the loadings of the outer model
+op = par(mar = rep(0, 4))
+plot(rus_pls, what = "loadings", arr.width = 0.1)
+par(op)
+@
+
+<<rus_pls_weights_plot, fig.width=6, fig.height=2.5, out.width='1\\linewidth', out.height='.45\\linewidth', fig.align='center', fig.pos='h', echo=c(1,3)>>=
+# plot the weights of the outer model
+op = par(mar = rep(0, 4))
+plot(rus_pls, what = "weights", arr.width = 0.1)
+par(op)
+@
+
+\subsubsection*{Plotting Cross-Loadings}
+In addition to the plotting functions provided in \plspm{}, we can also use the packages \code{ggplot2} and \code{reshape} to get some nice bar-charts of the cross-loadings:
+<<rus_pls_xloads_plot, eval=FALSE, tidy=FALSE>>=
+# load ggplot2 and reshape
+library(ggplot2)
+library(reshape)
+
+# reshape crossloadings data.frame for ggplot
+xloads = melt(rus_pls$crossloadings, id.vars = c("name", "block"),
+              variable_name = "LV")
+
+# bar-charts of crossloadings by block
+ggplot(data = xloads,
+       aes(x = name, y = value, fill = block)) +
+  geom_hline(yintercept = 0, color = "gray75") + 
+  geom_hline(yintercept = c(-0.5, 0.5), color = "gray70", linetype = 2) +   
+  geom_bar(stat = 'identity', position = 'dodge') +
+  facet_wrap(block ~ LV) +
+  theme(axis.text.x = element_text(angle = 90),
+        line = element_blank()) +
+  ggtitle("Crossloadings")
+@
+
+<<rus_pls_xloads_ggplot, fig.width=8, fig.height=6, out.width='1\\linewidth', out.height='.75\\linewidth', fig.align='center', fig.pos='h', echo=FALSE, message=FALSE>>=
+# load ggplot2 and reshape
+library(ggplot2)
+library(reshape)
+
+# reshape crossloadings data.frame for ggplot
+xloads = melt(rus_pls$crossloadings, id.vars = c("name", "block"),
+              variable_name = "LV")
+
+# bar-charts of crossloadings by block
+ggplot(data = xloads,
+       aes(x = name, y = value, fill = block)) +
+  geom_hline(yintercept = 0, color = "gray75") + 
+  geom_hline(yintercept = c(-0.5, 0.5), color = "gray70", linetype = 2) +   
+  geom_bar(stat = 'identity', position = 'dodge') +
+  facet_wrap(block ~ LV) +
+  theme(axis.text.x = element_text(angle = 90),
+        line = element_blank(),
+        plot.title = element_text(size=12)) +
+  ggtitle("Crossloadings")
+@
 
 
 

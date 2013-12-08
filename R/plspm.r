@@ -199,7 +199,7 @@ function(Data, path_matrix, blocks, modes = NULL, scaling = NULL,
   unidim = get_unidim(DM = MV, blocks = blocks, modes = specs$modes)
   
   # Summary Inner model
-  inner_summary = get_inner_summary(path_matrix, blocks, modes,
+  inner_summary = get_inner_summary(path_matrix, blocks, specs$modes,
                                     communality, redundancy, R2)
   
   # GoF Index
