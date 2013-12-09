@@ -44,7 +44,6 @@ function(DM, path_matrix, blocks, specs, br)
     wgs.orig = out.ws$w
     Y.lvs = out.ws$Y
     X = out.ws$QQ  # quantified MVs
-    colnames(X) = gens$mvs_names
   }
   
   pathmod <- get_paths(path_matrix, Y.lvs)
