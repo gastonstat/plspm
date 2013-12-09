@@ -92,7 +92,8 @@ function(DM, path_matrix, blocks, specs, br)
         next
       }
       Y.boot = w.boot$Y
-      X.boot = do.call(cbind, w.boot$QQ)  # quantified MVs
+      X.boot = w.boot$QQ  # quantified MVs
+#      X.boot = do.call(cbind, w.boot$QQ)  # quantified MVs
     }
     WEIGS[i,] <- w.boot$w
     pathmod <- get_paths(path_matrix, Y.boot)
