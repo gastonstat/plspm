@@ -43,7 +43,8 @@ function(DM, path_matrix, blocks, specs, br)
     ok_weights = test_null_weights(out.ws, specs)
     wgs.orig = out.ws$w
     Y.lvs = out.ws$Y
-    X = do.call(cbind, out.ws$QQ)  # quantified MVs
+    X = out.ws$QQ  # quantified MVs
+    colnames(X) = gens$mvs_names
   }
   
   pathmod <- get_paths(path_matrix, Y.lvs)
