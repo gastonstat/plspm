@@ -110,32 +110,62 @@ function(X, path_matrix, blocks, specs)
       # Quantification of the MVs in block ["QQ"]
       # =============================================================
       # for each MV in block 'q'
-      for (p in 1L:block_sizes[q]) {
-        if (specs$scaling[[q]][p] == "nom") {
-          # extract corresponding dummy matrix
-#          aux_dummy = dummies[[blocks[[q]][p]]]
-          which_dummy = (start_end$from[q]:start_end$to[q])[p]
-          aux_dummy = dummies[[which_dummy]]
-          # apply scaling
-          QQ[[q]][,p] = get_nom_scale(Z[,q], Xblocks[[q]][,p], aux_dummy)
-          QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+      if (specs$modes[q] == "B" && block_sizes[q] > 1) {
+        Beta <- summary(lm(Z[,q]~QQ[[q]]))$coef[-1,1]
+        X.star <- matrix(,num_obs,block_sizes[q])
+        for (p in 1L:block_sizes[q]) {
+          X.star[,p] <- (1/Beta[p])*(Z[,q] - (QQ[[q]][,-p]%*%Beta[-p]))
+          if (specs$scaling[[q]][p] == "nom") {
+            # extract corresponding dummy matrix
+            #          aux_dummy = dummies[[blocks[[q]][p]]]
+            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            aux_dummy = dummies[[which_dummy]]
+            # apply scaling
+            QQ[[q]][,p] = get_nom_scale(X.star[,p], Xblocks[[q]][,p], aux_dummy)
+            QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+          }
+          if (specs$scaling[[q]][p] == "ord") {
+            # extract corresponding dummy matrix
+            #          aux_dummy = dummies[[blocks[[q]][p]]]
+            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            aux_dummy = dummies[[which_dummy]]
+            # apply scaling
+            QQ[[q]][,p] = get_ord_scale(X.star[,p], Xblocks[[q]][,p], aux_dummy)
+            QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+          }                   
+          if (specs$scaling[[q]][p] == "num") {
+            QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+          }
         }
-        if (specs$scaling[[q]][p] == "ord") {
-          # extract corresponding dummy matrix
-#          aux_dummy = dummies[[blocks[[q]][p]]]
-          which_dummy = (start_end$from[q]:start_end$to[q])[p]
-          aux_dummy = dummies[[which_dummy]]
-          # apply scaling
-          QQ[[q]][,p] = get_ord_scale(Z[,q], Xblocks[[q]][,p], aux_dummy)
-          QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
-        }           	
-        if (specs$scaling[[q]][p] == "num") {
-          QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+      }
+      else {
+        for (p in 1L:block_sizes[q]) {
+          if (specs$scaling[[q]][p] == "nom") {
+            # extract corresponding dummy matrix
+            #          aux_dummy = dummies[[blocks[[q]][p]]]
+            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            aux_dummy = dummies[[which_dummy]]
+            # apply scaling
+            QQ[[q]][,p] = get_nom_scale(Z[,q], Xblocks[[q]][,p], aux_dummy)
+            QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+          }
+          if (specs$scaling[[q]][p] == "ord") {
+            # extract corresponding dummy matrix
+            #          aux_dummy = dummies[[blocks[[q]][p]]]
+            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            aux_dummy = dummies[[which_dummy]]
+            # apply scaling
+            QQ[[q]][,p] = get_ord_scale(Z[,q], Xblocks[[q]][,p], aux_dummy)
+            QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+          }                   
+          if (specs$scaling[[q]][p] == "num") {
+            QQ[[q]][,p] = get_num_scale(QQ[[q]][,p])
+          }
+          ### DO WE REALLY NEED THIS LINE:
+          #if (specs$scaling[[q]][p] == "raw") {
+          #  QQ[[q]][,p] = QQ[[q]][,p]
+          #}
         }
-        ### DO WE REALLY NEED THIS LINE:
-        #if (specs$scaling[[q]][p] == "raw") {
-        #  QQ[[q]][,p] = QQ[[q]][,p]
-        #}
       }
       
       # =============================================================
