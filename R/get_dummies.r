@@ -41,14 +41,16 @@ get_dummies <- function(MV, specs)
 #' Transforms a vector of natural numbers from 1 to p into the
 #' corresponding p x p dummy matrix
 #' 
-#' @param x a vector whose elements are all the natural numbers from 1 to p
+#' @param x a vector whose elements are non-negative integers from 0 to p
 #' @return the dummy matrix
 #' @keywords internal
 #' @export
 get_dummy <- function(x) 
 {
   n = length(x)
-  p = max(x, na.rm = TRUE)
+  # p = max(x, na.rm = TRUE)
+  # since 'x' could include zero, it's better to use the following:
+  p = length(unique(x[!is.na(x)]))
   
   # build the (p x p) dummy matrix 
   Xdummy = matrix(0, n, p)

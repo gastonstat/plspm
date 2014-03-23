@@ -92,7 +92,7 @@ function(X, path_matrix, blocks, specs)
     # =============================================================
     E <- switch(specs$scheme, 
                 "centroid" = sign(cor(Y) * link),
-                "factor" = cov(Y) * link,
+                "factorial" = cov(Y) * link,
                 "path" = get_path_scheme(path_matrix, Y))
     # internal estimation of LVs 'Z'
     Z = Y %*% E
@@ -114,7 +114,7 @@ function(X, path_matrix, blocks, specs)
         Beta <- summary(lm(Z[,q]~QQ[[q]]))$coef[-1,1]
         X.star <- matrix(,num_obs,block_sizes[q])
         for (p in 1L:block_sizes[q]) {
-          X.star[,p] <- (1/Beta[p])*(Z[,q] - (QQ[[q]][,-p]%*%Beta[-p]))
+          X.star[,p] <- (1/Beta[p])*(Z[,q] - (QQ[[q]][,-p,drop=FALSE]%*%Beta[-p]))
           if (specs$scaling[[q]][p] == "nom") {
             # extract corresponding dummy matrix
             #          aux_dummy = dummies[[blocks[[q]][p]]]

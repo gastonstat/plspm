@@ -5,8 +5,8 @@
   get_dummy(x)
 }
 \arguments{
-  \item{x}{a vector whose elements are all the natural
-  numbers from 1 to p}
+  \item{x}{a vector whose elements are non-negative
+  integers from 0 to p}
 }
 \value{
   the dummy matrix

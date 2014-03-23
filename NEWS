@@ -1,3 +1,10 @@
+Version 0.4.3 (2014-03-23)
+------------------------------------------------------------
+
+* fixed factorial scheme bug in `get_weights_nonmetric`
+
+* get_dummy allows `x` to include zero
+
 Version 0.4.2 (2013-12-09)
 ------------------------------------------------------------
 
