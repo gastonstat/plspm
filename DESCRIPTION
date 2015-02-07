@@ -1,8 +1,8 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling (PLS-PM)
-Version: 0.4.3
-Date: 2014-03-23
+Version: 0.4.4
+Date: 2015-02-08
 Authors@R: c(
     person("Gaston", "Sanchez",
     email = "gaston.stat@gmail.com", role = c("aut", "cre")),
@@ -14,11 +14,13 @@ Description: plspm contains a set of functions for performing Partial Least
 URL: http://www.gastonsanchez.com
     http://www.plsmodeling.com
 Depends:
-    R (>= 3.0.1),
-    amap,
-    diagram,
+    R (>= 3.0.1)
+Imports:
     tester,
-    turner
+    turner,
+    shape,
+    diagram,
+    amap
 Suggests:
     plsdepot,
     FactoMineR,
@@ -83,3 +85,4 @@ Collate:
     'get_PLSR.r'
     'get_PLSR_NA.r'
     'quantiplot.r'
+    'plspm-package.r'
