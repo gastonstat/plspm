@@ -1,8 +1,8 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling (PLS-PM)
-Version: 0.4.4
-Date: 2015-02-08
+Version: 0.4.5
+Date: 2015-05-06
 Authors@R: c(
     person("Gaston", "Sanchez",
     email = "gaston.stat@gmail.com", role = c("aut", "cre")),

@@ -93,7 +93,7 @@ function(DM, path_matrix, blocks, specs, br)
       }
       Y.boot = w.boot$Y
       X.boot = w.boot$QQ  # quantified MVs
-#      X.boot = do.call(cbind, w.boot$QQ)  # quantified MVs
+      # X.boot = do.call(cbind, w.boot$QQ)  # quantified MVs
     }
     WEIGS[i,] <- w.boot$w
     pathmod <- get_paths(path_matrix, Y.boot)
@@ -112,10 +112,14 @@ function(DM, path_matrix, blocks, specs, br)
   # ======================================================= 
   # Outer weights
   WB = get_boot_stats(WEIGS, wgs.orig)
-  rownames(WB) = mvs.names
+  #rownames(WB) = mvs.names
+  rownames(WB) <- paste(rep(lvs.names, sapply(blocks, length)), 
+                        mvs.names, sep='-')
   # Loadings
   LB = get_boot_stats(LOADS, loads.orig)
-  rownames(LB) = mvs.names
+  #rownames(LB) = mvs.names
+  rownames(LB) <- paste(rep(lvs.names, sapply(blocks, length)), 
+                       mvs.names, sep='-')
   # Path coefficients
   colnames(PATHS) = path.labs
   PB = get_boot_stats(PATHS, path.orig)

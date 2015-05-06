@@ -45,7 +45,7 @@
 #' (\code{FALSE} by default). 
 #' @param br number bootstrap resamples. Used only
 #' when \code{boot.val=TRUE}. When \code{boot.val=TRUE}, the default number of 
-#' re-samples is 100, but it can be specified in a range from 100 to 1000.
+#' re-samples is 100.
 #' @param dataset whether the data matrix used in the computations should be
 #' retrieved (\code{TRUE} by default).
 #' @return An object of class \code{"plspm"}. 
