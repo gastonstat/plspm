@@ -92,7 +92,7 @@ function(x, colpos = "#6890c4BB", colneg = "#f9675dBB",
           name = names,               # names of elements
           box.type = "ellipse",       # shape of label box
           box.size = box.size,        # size of label box
-          box.prop = box.prop,        # ength/width ratio of label box
+          box.prop = box.prop,        # length/width ratio of label box
           box.col = box.col,          # fill color of label box
           lcol = lcol,                # color of box line
           box.lwd = box.lwd,          # line width of the box

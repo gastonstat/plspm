@@ -33,9 +33,6 @@
 \source{
  \url{http://www.teamrankings.com/nfl/stats/}
 }
-\references{
-  \url{http://www.gastonsanchez.com/plspm}
-}
 \examples{
 # load data
 data(offense)

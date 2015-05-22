@@ -31,8 +31,6 @@
 }
 \references{
  \url{http://lib.stat.cmu.edu/DASL/Stories/HealthyBreakfast.html}
-
-  \url{http://www.gastonsanchez.com/plspm}
 }
 \examples{
 # load data

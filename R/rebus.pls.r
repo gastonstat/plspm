@@ -31,7 +31,7 @@
 #' a new approach to latent class detection in PLS Path Modeling. 
 #' \emph{Ph.D. Thesis}, University of Naples "Federico II", Naples, Italy.
 #' 
-#' \url{http://www.fedoa.unina.it/view/people/Trinchera,_Laura.html}
+#' \url{http://www.fedoa.unina.it/2702/1/Trinchera_Statistica.pdf}
 #' @seealso \code{\link{plspm}}, \code{\link{res.clus}}, 
 #' \code{\link{it.reb}}, \code{\link{rebus.test}}, 
 #' \code{\link{local.models}}

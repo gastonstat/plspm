@@ -33,9 +33,6 @@
   BDFutbol. \url{http://www.statto.com} \cr
   Cero a cero. \url{http://www.ceroacero.es/} \cr
 }
-\references{
-  Getting started with plspm. \url{http://www.gastonsanchez.com/plspm}
-}
 \examples{
   data(spainfoot)
   spainfoot

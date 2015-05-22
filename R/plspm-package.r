@@ -12,6 +12,6 @@
 #'
 #' @name plspm
 #' @docType package
-#' @import tester turner shape diagram
+#' @import tester turner diagram shape
 #' @importFrom amap hcluster
 NULL

@@ -26,9 +26,6 @@
     13  \tab \code{Gender}      \tab Gender               \tab \code{none} 		\cr
   }
 }
-\references{
-  \url{http://www.gastonsanchez.com/plspm}
-}
 \examples{
 # load data
 data(college)

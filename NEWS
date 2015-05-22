@@ -1,7 +1,15 @@
+Version 0.4.6 (2015-05-21)
+------------------------------------------------------------
+
+* updated documentation in funciton `plspm` for non-metric argument scaling
+* updated `install_github` call in README
+
+
 Version 0.4.5 (2015-05-05)
 ------------------------------------------------------------
 
 * fixed bug in 'get_boots' so now repeated names of MVs in constructs of 2nd order are displayed when requiring bootstrapping
+
 
 Version 0.4.4 (2015-02-08)
 ------------------------------------------------------------
@@ -13,13 +21,14 @@ Version 0.4.3 (2014-03-23)
 ------------------------------------------------------------
 
 * fixed factorial scheme bug in `get_weights_nonmetric`
-
 * get_dummy allows `x` to include zero
+
 
 Version 0.4.2 (2013-12-09)
 ------------------------------------------------------------
 
 * fixing a bug for non-metric data in `get_boots`
+
 
 Version 0.4.0 (2013-12-08)
 ------------------------------------------------------------
@@ -42,12 +51,14 @@ specify blocks using character strings
 
 * Simplified output of `plspm()` containing data frames compatible with ggplot2 
 
+
 Version 0.3.6 (2013-01-28)
 ------------------------------------------------------------
 
 * fixing a typo in `print.plspm` (thanks to Jeff Daniels)
 
 * Decreasing required R version to 2.14.0 (suggested by Mikko Ronkko)
+
 
 Version 0.3.5 (2013-01-03)
 ------------------------------------------------------------
@@ -59,12 +70,14 @@ this can be used to plot arrows with different line widths
 
 * fixing a typo in `outerplot.Rd`
 
+
 Version 0.3.4 (2012-12-29)
 ------------------------------------------------------------
 
 * changing print format of `print.local.models`
 
 * fixing a typo in `futbol.Rd`
+
 
 Version 0.3.3 (2012-12-15)
 ------------------------------------------------------------
@@ -81,10 +94,12 @@ Version 0.3.3 (2012-12-15)
 
 * internal `get_boots` changed to 95% confidence interval
 
+
 Version 0.3.2 (2012-11-17)
 ------------------------------------------------------------
 
 * new data set `technology` for User and Acceptance of Technology model
+
 
 Version 0.3.1 (2012-11-12)
 ------------------------------------------------------------

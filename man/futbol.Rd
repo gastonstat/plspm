@@ -29,9 +29,6 @@
   League Day. \url{http://www.leagueday.com} \cr
   Statto. \url{http://www.statto.com} \cr  
 }
-\references{
-  \url{http://www.gastonsanchez.com/plspm}
-}
 \examples{
   data(futbol)
   futbol
