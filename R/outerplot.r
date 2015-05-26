@@ -85,8 +85,9 @@ function(x, what = "loadings", colpos = "#6890c4BB", colneg = "#f9675dBB",
     # set colors
     MAT.col[MAT < 0] = colneg  # negative
     MAT.col[MAT >= 0] = colpos  # positive
+
     # call plotmat
-    plotmat(round(MAT, 4),              # square matrix with values
+    diagram::plotmat(round(MAT, 4),     # square matrix with values
             name = names.mvs,           # names of manifest variables
             box.type = box.types,       # shape of label box
             box.size = box.size,        # size of label box

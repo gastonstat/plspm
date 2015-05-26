@@ -120,7 +120,7 @@ res.clus <- function(pls, Y = NULL)
   # =======================================================
   # hierarchical cluster analysis with Ward method using function "hcluster"
   res = cbind(outer_residuals, inner_residuals)    
-  res.clus = hcluster(res, method="euclidean", diag=FALSE, upper=FALSE,
+  res.clus <- hcluster(res, method="euclidean", diag=FALSE, upper=FALSE,
                       link="ward", members=NULL, nbproc=2, doubleprecision=TRUE)
   # plot of the dendrogram
   plot(res.clus, main=c("REBUS", "Dendrogram of Outer and Inner Residuals"),

@@ -86,9 +86,9 @@ function(x, colpos = "#6890c4BB", colneg = "#f9675dBB",
     ALW = ALW[,lvs:1]
     arr.lwd = ALW
   }
-  
+
   # plot of inner model (adapted function from plotmat)
-  plotmat(round(MPC, 4),              # square coefficient matrix
+  diagram::plotmat(round(MPC, 4),     # square coefficient matrix
           name = names,               # names of elements
           box.type = "ellipse",       # shape of label box
           box.size = box.size,        # size of label box

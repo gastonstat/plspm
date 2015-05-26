@@ -1,3 +1,14 @@
+Version 0.4.7 (2015-05-22)
+------------------------------------------------------------
+
+* re-submission addressing package's Description change requested by Kurt Hornick
+* changed package URL in DESCRIPTION
+* addes BugReports in DESCRIPTION
+* updated call to plot diagrams: `diagram::plotmat`
+* updated vignette with all plots displayed
+* fixed bug in rebus.pls example documentation
+
+
 Version 0.4.6 (2015-05-21)
 ------------------------------------------------------------
 

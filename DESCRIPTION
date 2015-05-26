@@ -1,17 +1,18 @@
 Package: plspm
 Type: Package
 Title: Tools for Partial Least Squares Path Modeling (PLS-PM)
-Version: 0.4.6
-Date: 2015-05-21
+Version: 0.4.7
+Date: 2015-05-22
 Authors@R: c(
     person("Gaston", "Sanchez",
     email = "gaston.stat@gmail.com", role = c("aut", "cre")),
     person("Laura", "Trinchera", role = "aut"),
     person("Giorgio", "Russolillo", role = "aut"))
-Description: Package plspm contains a set of functions for performing Partial Least
-    Squares Path Modeling (PLS-PM) analysis for both metric and non-metric
-    data, as well as REBUS analysis.
-URL: http://www.gastonsanchez.com
+Description: Partial Least Squares Path Modeling (PLS-PM)
+    analysis for both metric and
+    non-metric data, as well as REBUS analysis.
+URL: https://github.com/gastonstat/plspm
+BugReports: https://github.com/gastonstat/plspm/issues
 Depends:
     R (>= 3.0.1)
 Imports:

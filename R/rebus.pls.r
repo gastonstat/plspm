@@ -51,8 +51,8 @@
 #'                             c("Price", "Quality", "Satisfaction"))
 #'  sim_outer = list(c(1,2,3,4,5), c(6,7,8,9,10), c(11,12,13)) 
 #'  sim_mod = c("A", "A", "A")  # reflective indicators
-#'  sim_global = plspm(simdata, inner=sim_inner, 
-#'                     outer=sim_outer, modes=sim_mod)
+#'  sim_global = plspm(simdata, sim_inner, 
+#'                     sim_outer, modes=sim_mod)
 #'  sim_global
 #'  
 #'  # run rebus.pls and choose the number of classes 
