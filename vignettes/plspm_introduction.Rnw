@@ -114,7 +114,7 @@ data(russett)
 @
 
 \subsection{Data \code{russett}}
-The data conatins 11 variales about agricultural inequality, industrial development, and political instability measured on 47 countries, collected by Ruseett B. M. in his 1964 paper: \textsf{The Relation of Land Tenure to Politics}. \textit{World Politics}, 16:3, pp. 442-454.
+The data contains 11 variables about agricultural inequality, industrial development, and political instability measured on 47 countries, collected by Ruseett B. M. in his 1964 paper: \textsf{The Relation of Land Tenure to Politics}. \textit{World Politics}, 16:3, pp. 442-454.
 
 To get an idea of what the data looks like we can use the \texttt{head()} function which will show us the first \texttt{n} rows in \texttt{russett}
 <<head_russett, size='small'>>=
