@@ -107,14 +107,14 @@ Last but not least, \fplspm{} also comes with several data sets to play with: \c
 
 
 \section{Quick Example with \fplspm{}}
-In order to show a toy analysis example with \fplspm{}, we will use the \code{russett} data set which is one of the traditional examples for presenting PLS-PM. To load the data, simple type in your \R{} console:
+In order to show a toy analysis example with \fplspm{}, we will use the \code{russett} data set which is one of the traditional examples for presenting PLS-PM. To load the data, simply type in your \R{} console:
 <<load_russett>>=
-# laod data set
+# load data set
 data(russett)
 @
 
 \subsection{Data \code{russett}}
-The data conatins 11 variales about agricultural inequality, industrial development, and political instability measured on 47 countries, collected by Ruseett B. M. in his 1964 paper: \textsf{The Relation of Land Tenure to Politics}. \textit{World Politics}, 16:3, pp. 442-454.
+The data conatins 11 variales about agricultural inequality, industrial development, and political instability measured on 47 countries, collected by Russett B. M. in his 1964 paper: \textsf{The Relation of Land Tenure to Politics}. \textit{World Politics}, 16:3, pp. 442-454.
 
 To get an idea of what the data looks like we can use the \texttt{head()} function which will show us the first \texttt{n} rows in \texttt{russett}
 <<head_russett, size='small'>>=
@@ -233,7 +233,7 @@ Now we are ready to run our first PLS path model with the function \fplspm{}. Yo
 # run plspm analysis
 rus_pls = plspm(russett, rus_path, rus_blocks, modes = rus_modes) 
 
-# what's in foot_pls?
+# what's in rus_pls?
 rus_pls
 @
 
@@ -328,6 +328,92 @@ ggplot(data = xloads,
   ggtitle("Crossloadings")
 @
 
+
+
+
+
+\section{Non-Metric PLS-PM}
+The \textbf{non-metric plspm} approach is a quantification procedure that provides ``raw'' manifest variables with a proper metric interval scale, independently of the measurement scale on which they have been originally observed.
+Each level (or distinct value) of a manifest variable is considered as a scaling parameter to optimize together with the model parameters.
+Scaling and model parameters (that is, quantifications and outer weights) are optimized through a modified plspm iterative algorithm.  
+Given any combination of \code{mode} and \code{scheme}, whereas the plspm algorithm has been proved to yield outer weights that maximize a well defined criterion, \textbf{nmplspm} outer weights and quantifications maximize the same criterion.
+nmplspm quantifications may be subjected to different constraints; these contraints depend on which properties of the original measurement scale are retained in the quantification procedure.
+The user can choose the proper type of quantification for each manifest variable. 
+
+
+\subsection{How to run a non-metric \plspm{} analysis}
+To run a non-metric \plspm{} analysis you must use the \code{scaling} argument of the function \fplspm{} function. This argument requires a list of string vectors as long as the the list provided to the argument \texttt{blocks}. Each vector in \code{scaling} contains a string for each manifest variable of a block, which indicates the type of quantification applied to the corresponding manifest variable. Currently the scaling option of the plspm function supports four types of quantifications:   
+
+\begin{itemize}
+  \item \code{"raw"}: the (numerical) manifest variable is not quantified. Choosing this option for every variable is equivalent to run the ordinary plspm on original variables. This is the only option which does not yield transformed variables scaled to unitary variance.
+  \item \code{"num"}: a linear transformation is applied to the (numerical) manifest variable. Choosing this option for every variable is equivalent to running the ordinary plspm algorithm on scaled variables.
+  \item \code{"ord"}: a monotonic transformation is applied to the manifest variable, subject to the following constraint: given two distinct attributes, the higher order attribute is quantified by a numerical value not smaller than the other. This transformation is suggested for quantifying the levels of the ordinal variables while respecting their order. It can be applied also to numerical variables for checking and overcoming non-linearity issues. In this case linearity hypothesis is relaxed in favor of a milder monotonicity hypothesis.
+  \item \code{"nom"}: a non-monotonic transformation is applied to the manifest variable, subject to the following constraint: observation sharing the same attribute share the same quantification value. This transformation is recommended for quantifying nominal variables. It can be used also for exploring non-monotonic relations of an ordinal or even a numerical variable if the number of distinct values is much less then the sample size. 
+\end{itemize}
+ 
+ 
+\subsection{Running a non-metric analysis on Russett dataset}
+We run our analysis on the \code{russb} dataset. To load the data, type in your \R{} console:
+<<load_russb>>=
+# load data set
+data(russb)
+@
+This dataset contains the same information than the dataset \code{russett}, except that the three binary variables \code{demostab}, \code{demoinst} and \code{dictator} become three categories of the factor \code{demo}:
+<<head_russb, size='small'>>=
+# take a look at the data
+head(russb)
+@
+According to Tenenhaus (1998), variables \code{rent}, \code{gnpr}, \code{labo}, \code{inst}, \code{ecks} and \code{death} need to be transformed in order to overcome non-linearity issues.
+We apply an ordinal (monotonic) transformation to these variables.
+Moreover, we apply a nominal (non-monotonic) quantification to the categorical variable \code{demo}.
+Finally, variables \code{gini} and \code{farm} are simply standardized to unitary variance.
+
+We create the lists \code{russb{\_}scaling} and \code{russb{\_}blocks} to fill the argument \code{scaling} and \code{blocks} respectively:
+<<scaling_russb>>=
+# defining the quantification constraints for each manifest variable  
+russb_scaling = list(c("num", "num", "ord"),
+                    c("ord", "ord"),
+                    c("ord", "ord", "ord", "nom"))
+
+# defining the blocks of manifest variables 
+russb_blocks = list(
+   c("gini", "farm", "rent"),
+   c("gnpr", "labo"),
+   c("inst", "ecks", "death", "demo"))
+@
+
+We have previously created the objects \code{rus{\_}modes} and \code{rus{\_}path}to define the modes and the relations in the inner model, so we are ready to run the PLS path model with the function \fplspm{}.
+<<echo=FALSE, message=FALSE>>=
+# path matrix (inner model realtionships)
+AGRIN = c(0, 0, 0)
+INDEV = c(0, 0, 0)
+POLINS = c(1, 1, 0)
+rus_path = rbind(AGRIN, INDEV, POLINS)
+# add optional column names
+colnames(rus_path) = rownames(rus_path)
+
+# all latent variables are measured in a reflective way
+rus_modes = rep("A", 3)
+@
+
+Finally, we call \fplspm{}
+<<russb_nmpls>>=
+# running the model 
+russb_nmpls = plspm(russb, path = rus_path, blocks = russb_blocks,
+              scaling = russb_scaling, modes = rus_modes,
+              scheme = "CENTROID")
+@
+
+To obtain the quantified variables:
+<<quantivar,  eval=TRUE>>=
+head(russb_nmpls$manifests)
+@
+
+<<quantiplot_agr, fig.width=6, fig.height=2.5, out.width='1\\linewidth', out.height='.45\\linewidth', fig.align='center', fig.pos='h'>>=
+par(mar = rep(0,4))
+quantiplot(russb_nmpls, lv = "AGRIN")
+par(op)
+@
 
 
 \end{document}
