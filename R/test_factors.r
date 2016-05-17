@@ -16,8 +16,7 @@ test_factors <- function(DF)
   contains_factors = FALSE
   # to be used when DF is a data.frame containing factors
   if (is.data.frame(DF)) {
-    mvs_class = sapply(DF, class)
-    mvs_as_factors <- mvs_class == "factor"
+    mvs_as_factors = sapply(MV, is.factor)
     # tell me if there are MVs as factors
     if (sum(mvs_as_factors) > 0)
       contains_factors = TRUE
