@@ -32,7 +32,7 @@ library(plspm)
 data(satisfaction)
 
 # define path matrix (inner model)
-IMAG < -c(0,0,0,0,0,0)
+IMAG <- c(0,0,0,0,0,0)
 EXPE <- c(1,0,0,0,0,0)
 QUAL <- c(0,1,0,0,0,0)
 VAL <- c(0,1,1,0,0,0)
