@@ -1,16 +1,20 @@
 # plspm
 
-**plspm** is an [R](http://www.r-project.org/) package dedicated to Partial Least Squares Path Modeling (PLS-PM) analysis for both *metric* and *non-metric* data. Versions later than 4.0 include a whole new set of features to handle non-metric variables.
+`"plspm"` is an [R](http://www.r-project.org/) package dedicated to Partial Least Squares Path Modeling (PLS-PM) analysis for both *metric* and *non-metric* data. Versions later than 4.0 include a whole new set of features to handle non-metric variables.
+
+
+## Donation
+
+If you find any value and usefulness in `plspm`, please consider making 
+a one-time donation in any amount. Your support really matters.
+
+<a href="https://www.paypal.com/donate?business=ZF6U7K5MW25W2&currency_code=USD" target="_blank"><img src="https://www.gastonsanchez.com/images/donate.png" width="140" height="60"/></a>
+
 
 ## Installation
 
-Stable version on [CRAN](http://cran.r-project.org/web/packages/plspm/index.html)
-```ruby
-# install "plspm"
-install.packages("plspm") 
-```
+You can install `"plspm"` using the function `install_github()` from package `"devtools"`
 
-Development version on [github](https://github.com/gastonstat/plspm)
 ```ruby
 # install "devtools"
 install.packages("devtools") 
