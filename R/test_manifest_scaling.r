@@ -14,8 +14,7 @@ test_manifest_scaling <- function(MV, scaling)
 {
   # to be used when MV is a data.frame containing factors
   if (is.data.frame(MV)) {
-    mvs_class = sapply(MV, class)
-    mvs_as_factors <- mvs_class == "factor"
+    mvs_as_factors=sapply(MV, is.factor)
     # if there are MVs as factors, check right scaling
     if (sum(mvs_as_factors) > 0) {
       factors_scaling = unlist(scaling)[mvs_as_factors]

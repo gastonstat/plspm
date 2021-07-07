@@ -24,7 +24,6 @@ function(X, path_matrix, blocks, specs)
   blockinds = indexify(blocks)
   block_sizes = lengths(blocks)
   PLScomp = specs$plscomp
-  start_end = from_to(block_sizes)
   
   # create dummy matrices for categorical manifest variables
   dummies = get_dummies(X, specs)
@@ -118,7 +117,7 @@ function(X, path_matrix, blocks, specs)
           if (specs$scaling[[q]][p] == "nom") {
             # extract corresponding dummy matrix
             #          aux_dummy = dummies[[blocks[[q]][p]]]
-            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            which_dummy = (from[q]:to[q])[p]
             aux_dummy = dummies[[which_dummy]]
             # apply scaling
             QQ[[q]][,p] = get_nom_scale(X.star[,p], Xblocks[[q]][,p], aux_dummy)
@@ -127,7 +126,7 @@ function(X, path_matrix, blocks, specs)
           if (specs$scaling[[q]][p] == "ord") {
             # extract corresponding dummy matrix
             #          aux_dummy = dummies[[blocks[[q]][p]]]
-            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            which_dummy = (from[q]:to[q])[p]
             aux_dummy = dummies[[which_dummy]]
             # apply scaling
             QQ[[q]][,p] = get_ord_scale(X.star[,p], Xblocks[[q]][,p], aux_dummy)
@@ -143,7 +142,7 @@ function(X, path_matrix, blocks, specs)
           if (specs$scaling[[q]][p] == "nom") {
             # extract corresponding dummy matrix
             #          aux_dummy = dummies[[blocks[[q]][p]]]
-            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            which_dummy = (from[q]:to[q])[p]
             aux_dummy = dummies[[which_dummy]]
             # apply scaling
             QQ[[q]][,p] = get_nom_scale(Z[,q], Xblocks[[q]][,p], aux_dummy)
@@ -152,7 +151,7 @@ function(X, path_matrix, blocks, specs)
           if (specs$scaling[[q]][p] == "ord") {
             # extract corresponding dummy matrix
             #          aux_dummy = dummies[[blocks[[q]][p]]]
-            which_dummy = (start_end$from[q]:start_end$to[q])[p]
+            which_dummy = (from[q]:to[q])[p]
             aux_dummy = dummies[[which_dummy]]
             # apply scaling
             QQ[[q]][,p] = get_ord_scale(Z[,q], Xblocks[[q]][,p], aux_dummy)
