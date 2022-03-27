@@ -5,8 +5,6 @@
 
 ## Donation
 
-## Donation
-
 As a Data Science and Statistics educator, I love to share the work I do. 
 Each month I spend dozens of hours curating learning materials and computational
 tools like this R package. If you find any value and usefulness in `plspm`, 
